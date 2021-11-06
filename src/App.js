@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Query from './backend/query';
 import { useFetching } from './components/hooks/useFetching';
+import { useTaskGroups, useTasks } from './components/hooks/useTasks';
 import TaskFilter from './components/taskFilter';
 import TaskList from './components/taskList';
 function App() {
@@ -8,9 +9,7 @@ function App() {
 
   const [selectedUG, setSelectedUG] = useState(0);
   const [userGroups, setUserGroups] = useState([]);
-
   const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
-
   const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(
     async () => {
       const response = await Query.getData({
@@ -24,7 +23,18 @@ function App() {
   useEffect(async () => fetchUGData(), []);
 
   const [taskList, setTaskList] = useState([]);
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [filter, setFilter] = useState({
+    sort: '',
+    taskGroup: '',
+    status: '',
+  });
+  const sortedFilterdTasks = useTasks(
+    taskList,
+    filter.sort,
+    filter.taskGroup,
+    filter.status
+  );
+  const uniqTaskGroups = useTaskGroups(taskList);
   const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(
     async () => {
       const response = await Query.getData({
@@ -36,15 +46,18 @@ function App() {
     }
   );
   useEffect(async () => fetchTaskList(), [selectedUG]);
-
+  console.log(filter);
   return (
     <div>
       <TaskFilter
         defaultUGvalue={defaultUG(userGroups)}
         setSelectedUG={setSelectedUG}
         userGroups={userGroups}
+        filter={filter}
+        setFilter={setFilter}
+        uniqTaskGroups={uniqTaskGroups}
       />
-      <TaskList taskList={taskList} />
+      <TaskList taskList={sortedFilterdTasks} />
     </div>
   );
 }
