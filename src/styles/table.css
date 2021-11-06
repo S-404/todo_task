@@ -1,0 +1,66 @@
+.task_list_table {
+  background: white;
+  border-collapse: collapse;
+  border: 1px solid gray;
+  width: 100%;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+.task_list_table tr:first {
+  font-weight: bold;
+}
+
+.task_list_table td {
+  border: 1px solid gray;
+  padding: 1px;
+  padding-left: 2px;
+  white-space: nowrap;
+  margin: 2px;
+  overflow: hidden;
+}
+
+.task_list_table .task_list_header {
+  position: sticky;
+  top: -1px;
+  background-color: #5e5c6c;
+  color: white;
+}
+
+.task_list_table .task_list_datarow {
+  cursor: pointer;
+}
+
+.task_list_table .narrow {
+  width: 80px;
+  text-align: center;
+}
+
+/*STATUSES*/
+
+.task_list_table .byyou.statuscol {
+  font-weight: bold;
+}
+
+.task_list_table .task_list_datarow.missed {
+  background-color: rgba(231, 75, 47, 0.673);
+}
+
+.task_list_table .task_list_datarow.righttime {
+  background-color: rgba(169, 242, 243, 0.673);
+}
+
+.task_list_table .task_list_datarow.done {
+  background-color: rgba(109, 230, 109, 0.673);
+}
+
+.task_list_table .task_list_datarow.inprocess {
+  background-color: rgba(109, 139, 230, 0.673);
+}
+
+.task_list_table .task_list_datarow:hover {
+  font-weight: bolder;
+  overflow-x: hidden;
+  color: #1e02bb;
+  transition: color 0.5s ease-in;
+}

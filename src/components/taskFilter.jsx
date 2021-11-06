@@ -11,24 +11,25 @@ const TaskFilter = ({
 }) => {
   return (
     <div className="filter_container">
-      <select
-        defaultValue={defaultUGvalue}
-        onChange={(e) => {
-          if (e.target.value !== 0) {
-            setSelectedUG(e.target.value);
-          }
-        }}
-      >
-        {userGroups.map((row) => (
-          <option key={row.USERGROUP_ID} value={row.USERGROUP_ID}>
-            {row.USERGROUP_NAME}
+      <div>
+        <select
+          defaultValue={defaultUGvalue}
+          onChange={(e) => {
+            if (e.target.value !== 0) {
+              setSelectedUG(e.target.value);
+            }
+          }}
+        >
+          {userGroups.map((row) => (
+            <option key={row.USERGROUP_ID} value={row.USERGROUP_ID}>
+              {row.USERGROUP_NAME}
+            </option>
+          ))}
+          <option key={userGroups.length + 1} value={0}>
+            + Create Group
           </option>
-        ))}
-        <option key={userGroups.length + 1} value={0}>
-          + Create Group
-        </option>
-      </select>
-
+        </select>
+      </div>
       <MySelect
         value={filter.taskGroup}
         defaultValue="task group"

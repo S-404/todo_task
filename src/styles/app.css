@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --border-radius-val: 5px;
+}
+#root {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(186, 186, 186, 0.557);
+}
+.App {
+  width: 600px;
+}
+
+.task_list_container {
+  background-color: whitesmoke;
+  height: 95vh;
+  overflow-y: scroll;
+  border-radius: var(--border-radius-val);
+  border: solid 2px lightgray;
+}
+
+.filter_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 5vh;
+}

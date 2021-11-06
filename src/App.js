@@ -4,6 +4,9 @@ import { useFetching } from './components/hooks/useFetching';
 import { useTaskGroups, useTasks } from './components/hooks/useTasks';
 import TaskFilter from './components/taskFilter';
 import TaskList from './components/taskList';
+import './styles/table.css';
+import './styles/app.css';
+
 function App() {
   const user = { userid: 'user' }; //test user obj
 
@@ -46,9 +49,9 @@ function App() {
     }
   );
   useEffect(async () => fetchTaskList(), [selectedUG]);
-  console.log(filter);
+
   return (
-    <div>
+    <div className="App">
       <TaskFilter
         defaultUGvalue={defaultUG(userGroups)}
         setSelectedUG={setSelectedUG}
@@ -57,7 +60,7 @@ function App() {
         setFilter={setFilter}
         uniqTaskGroups={uniqTaskGroups}
       />
-      <TaskList taskList={sortedFilterdTasks} />
+      <TaskList taskList={sortedFilterdTasks} user={user.userid} />
     </div>
   );
 }
