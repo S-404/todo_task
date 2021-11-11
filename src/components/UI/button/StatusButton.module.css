@@ -1,0 +1,7 @@
+.statusButton {
+  padding: 0 0;
+  border: 0 solid gray;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}

@@ -50,6 +50,8 @@ function App() {
   );
   useEffect(async () => fetchTaskList(), [selectedUG]);
 
+  const [selectedTask, setSelectedTask] = useState(0);
+
   return (
     <div className="App">
       <TaskFilter
@@ -60,7 +62,12 @@ function App() {
         setFilter={setFilter}
         uniqTaskGroups={uniqTaskGroups}
       />
-      <TaskList taskList={sortedFilterdTasks} user={user.userid} />
+      <TaskList
+        taskList={sortedFilterdTasks}
+        user={user.userid}
+        selectedTask={selectedTask}
+        setSelectedTask={setSelectedTask}
+      />
     </div>
   );
 }
