@@ -2,38 +2,48 @@ import React from 'react';
 import { dlinefromfloat, checkDLine } from '../utils/utils.js';
 
 const TaskList = ({ taskList, user }) => {
-  const doneByYou = (user, complitedBy) => (complitedBy == user ? 'byyou' : '');
+  const doneByUser = (user, complitedBy) =>
+    complitedBy === user ? '_bold' : '';
 
   return (
-    <div className="task_list_container">
-      <table className="task_list_table">
-        <thead>
-          <tr className="task_list_header">
-            <th className="narrow">DLine</th>
-            <th>Task</th>
-            <th className="narrow">Status</th>
+    <div className="task-list-container">
+      <table className="task-list-table">
+        <thead className="task-list-table__thead">
+          <tr className="task-list-table__tr">
+            <th className="task-list-table__th task-list-table__th_narrow">
+              DLine
+            </th>
+            <th className="task-list-table__th">Task</th>
+            <th className="task-list-table__th task-list-table__th_narrow">
+              Status
+            </th>
           </tr>
         </thead>
-        <tbody>
-          {taskList.map((task) => (
-            <tr
-              className={
-                'task_list_datarow ' +
-                checkDLine(task.DEADLINE, task.PERIODICITY, task.STATUS)
-              }
-              key={task.ID}
-            >
-              <td className="narrow">
-                {dlinefromfloat(task.DEADLINE, task.PERIODICITY)}
-              </td>
-              <td>{task.TASK_NAME}</td>
-              <td
-                className={'narrow statuscol ' + doneByYou(user, task.USERID)}
+        <tbody className="task-list-table__tbody">
+          {taskList.map((task) => {
+            return (
+              <tr
+                className={
+                  'task-list-table__tr task-list-table__tr_' +
+                  checkDLine(task.DEADLINE, task.PERIODICITY, task.STATUS)
+                }
+                key={task.ID}
               >
-                {task.STATUS}
-              </td>
-            </tr>
-          ))}
+                <td className="task-list-table__td task-list-table__td_narrow">
+                  {dlinefromfloat(task.DEADLINE, task.PERIODICITY)}
+                </td>
+                <td className="task-list-table__td">{task.TASK_NAME}</td>
+                <td
+                  className={
+                    'task-list-table__td task-list-table__td_narrow task-list-table__td-status' +
+                    doneByUser(user, task.USERID) //doneByUser adds modifier 'bold'
+                  }
+                >
+                  {task.STATUS}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

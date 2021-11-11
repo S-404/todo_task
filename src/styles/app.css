@@ -20,7 +20,7 @@
   width: 600px;
 }
 
-.task_list_container {
+.task-list-container {
   background-color: whitesmoke;
   height: 95vh;
   overflow-y: scroll;

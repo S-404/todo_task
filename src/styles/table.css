@@ -1,4 +1,4 @@
-.task_list_table {
+.task-list-table {
   background: white;
   border-collapse: collapse;
   border: 1px solid gray;
@@ -7,11 +7,11 @@
   table-layout: fixed;
 }
 
-.task_list_table tr:first {
+.task-list-table__thead {
   font-weight: bold;
 }
 
-.task_list_table td {
+.task-list-table__td {
   border: 1px solid gray;
   padding: 1px;
   padding-left: 2px;
@@ -20,47 +20,48 @@
   overflow: hidden;
 }
 
-.task_list_table .task_list_header {
+.task-list-table__thead {
   position: sticky;
   top: -1px;
   background-color: #5e5c6c;
   color: white;
 }
 
-.task_list_table .task_list_datarow {
+.task-list-table__tr {
   cursor: pointer;
+  overflow-x: hidden;
 }
 
-.task_list_table .narrow {
+.task-list-table__td_narrow,
+.task-list-table__th_narrow {
   width: 80px;
   text-align: center;
 }
 
 /*STATUSES*/
 
-.task_list_table .byyou.statuscol {
+.task-list-table__td-status_bold {
   font-weight: bold;
 }
 
-.task_list_table .task_list_datarow.missed {
+.task-list-table__tr_missed {
   background-color: rgba(231, 75, 47, 0.673);
 }
 
-.task_list_table .task_list_datarow.righttime {
+.task-list-table__tr_righttime {
   background-color: rgba(169, 242, 243, 0.673);
 }
 
-.task_list_table .task_list_datarow.done {
+.task-list-table__tr_done {
   background-color: rgba(109, 230, 109, 0.673);
 }
 
-.task_list_table .task_list_datarow.inprocess {
+.task-list-table__tr_inprocess {
   background-color: rgba(109, 139, 230, 0.673);
 }
 
-.task_list_table .task_list_datarow:hover {
+.task-list-table__tbody .task-list-table__tr:hover {
   font-weight: bolder;
-  overflow-x: hidden;
   color: #1e02bb;
   transition: color 0.5s ease-in;
 }
