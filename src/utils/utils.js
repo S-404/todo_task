@@ -1,4 +1,6 @@
 const pad = (num, places) => String(num).padStart(places, '0');
+const firstDayOfWeek = (date) => date.setDate(date.getDate() - date.getDay());
+const firstDayOfMonth = (date) => date.setDate(1);
 
 export const dlinefromfloat = (dlineValue, periodicity) => {
   switch (+periodicity) {
@@ -22,7 +24,10 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
 
 export const checkDLine = (dlineValue, periodicity, status) => {
   let checkstatus = status === null ? '' : status.replace(' ', '');
+  //task is done/in process
   if (checkstatus !== '') return checkstatus;
+
+  //task is not done -> check deadline   is missed/righttime
   let result = '';
   let d = new Date();
   switch (+periodicity) {
@@ -50,4 +55,32 @@ export const checkDLine = (dlineValue, periodicity, status) => {
   }
 
   return result;
+};
+
+export const getStatus = (periodicity, started, finished) => {
+  let d = new Date();
+  d.setHours(0);
+  switch (+periodicity) {
+    case 1:
+      if (started > d) {
+        if (finished > started) return 'done';
+        return 'inprocess';
+      } else {
+        return '';
+      }
+    case 7:
+      if (started > firstDayOfWeek(d)) {
+        if (finished > started) return 'done';
+        return 'inprocess';
+      } else {
+        return '';
+      }
+    case 30:
+      if (started > firstDayOfMonth(d)) {
+        if (finished > started) return 'done';
+        return 'inprocess';
+      } else {
+        return '';
+      }
+  }
 };

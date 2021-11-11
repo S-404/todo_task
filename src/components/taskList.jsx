@@ -1,5 +1,5 @@
 import React from 'react';
-import { dlinefromfloat, checkDLine } from '../utils/utils.js';
+import { dlinefromfloat, checkDLine, getStatus } from '../utils/utils.js';
 
 const TaskList = ({ taskList, user }) => {
   const doneByUser = (user, complitedBy) =>
@@ -21,11 +21,16 @@ const TaskList = ({ taskList, user }) => {
         </thead>
         <tbody className="task-list-table__tbody">
           {taskList.map((task) => {
+            let status = getStatus(
+              task.PERIODICITY,
+              task.STARTED,
+              task.FINISHED
+            );
             return (
               <tr
                 className={
                   'task-list-table__tr task-list-table__tr_' +
-                  checkDLine(task.DEADLINE, task.PERIODICITY, task.STATUS)
+                  checkDLine(task.DEADLINE, task.PERIODICITY, status)
                 }
                 key={task.ID}
               >
@@ -39,7 +44,7 @@ const TaskList = ({ taskList, user }) => {
                     doneByUser(user, task.USERID) //doneByUser adds modifier 'bold'
                   }
                 >
-                  {task.STATUS}
+                  {status}
                 </td>
               </tr>
             );
