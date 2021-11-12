@@ -55,9 +55,9 @@ const TaskFilter = ({
           })
         }
         options={[
-          { value: '', name: 'All' },
-          { value: 'to do', name: 'To do' },
-          { value: 'in process', name: 'In process' },
+          { value: 'all', name: 'All' },
+          { value: '', name: 'To do' },
+          { value: 'inprocess', name: 'In process' },
           { value: 'done', name: 'Done' },
         ]}
       ></MySelect>

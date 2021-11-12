@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { dlinefromfloat, checkDLine, getStatus } from '../../utils/utils.js';
 
 export const useSortedTasks = (tasks, sort) => {
   const sortedTasks = useMemo(() => {
@@ -14,9 +15,26 @@ export const useFilteredTasks = (tasks, query, filterColumn) => {
   const filteredTasks = useMemo(() => {
     if (query && filterColumn) {
       return tasks.filter((task) => {
-        return task[filterColumn] === null
-          ? false
-          : task[filterColumn].toLocaleLowerCase().includes(query);
+        let str =
+          task[filterColumn] === null
+            ? ''
+            : task[filterColumn].toLocaleLowerCase();
+        return str.includes(query);
+      });
+    }
+    return tasks;
+  }, [query, tasks]);
+  return filteredTasks;
+};
+
+export const useFilteredTasksWithStatus = (tasks, query) => {
+  const filteredTasks = useMemo(() => {
+    if (query && query !== 'all') {
+      return tasks.filter((task) => {
+        return (
+          getStatus(task['PERIODICITY'], task['STARTED'], task['FINISHED']) ===
+          query
+        );
       });
     }
     return tasks;
@@ -26,14 +44,13 @@ export const useFilteredTasks = (tasks, query, filterColumn) => {
 
 export const useTasks = (tasks, sort, taskGroup, status) => {
   const sortedTasks = useSortedTasks(tasks, sort);
-
-  const sortedFilterdTasks = useFilteredTasks(
+  const sortedFilteredTasks = useFilteredTasks(
     sortedTasks,
     taskGroup,
     'TASK_GROUP'
   );
 
-  const result = useFilteredTasks(sortedFilterdTasks, status, 'STATUS');
+  const result = useFilteredTasksWithStatus(sortedFilteredTasks, status);
 
   return result;
 };
