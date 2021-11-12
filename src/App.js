@@ -31,6 +31,10 @@ function App() {
     taskGroup: '',
     status: '',
   });
+  const [selectedTask, setSelectedTask] = useState({
+    taskID: 0,
+    taskStatus: '',
+  });
   const sortedFilterdTasks = useTasks(
     taskList,
     filter.sort,
@@ -50,7 +54,16 @@ function App() {
   );
   useEffect(async () => fetchTaskList(), [selectedUG]);
 
-  const [selectedTask, setSelectedTask] = useState(0);
+  const changetaskListValue = (taskID, fieldName, newValue) => {
+    let tmpArr = taskList;
+    if (tmpArr.length > 0) {
+      tmpArr.filter((task) => task.ID === taskID)[0][fieldName] = newValue;
+      tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] =
+        Date.now();
+      tmpArr.filter((task) => task.ID === taskID)[0]['USERID'] = user.userid;
+    }
+    setTaskList(tmpArr);
+  };
 
   return (
     <div className="App">
@@ -67,6 +80,7 @@ function App() {
         user={user.userid}
         selectedTask={selectedTask}
         setSelectedTask={setSelectedTask}
+        changetaskListValue={changetaskListValue}
       />
     </div>
   );

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StatusButton from './UI/button/StatusButton.jsx';
 import { dlinefromfloat, checkDLine, getStatus } from '../utils/utils.js';
 
 const TaskPanel = ({
   task,
-  stausView,
+  statusView,
   setStatusView,
   user,
   selectedTask,
   setSelectedTask,
+  changetaskListValue,
 }) => {
   let status = getStatus(task.PERIODICITY, task.STARTED, task.FINISHED);
 
@@ -26,6 +27,28 @@ const TaskPanel = ({
   const doneByUser = (user, complitedBy) =>
     complitedBy === user ? '_bold' : '';
 
+  const newStatusProps = () => {
+    let newValue;
+    let fieldName;
+
+    switch (statusView) {
+      case 'finish':
+        newValue = Date.now();
+        fieldName = 'FINISHED';
+        break;
+      case 'reset':
+        newValue = 0;
+        fieldName = 'STARTED';
+        break;
+      case 'start':
+        newValue = Date.now();
+        fieldName = 'STARTED';
+        break;
+      default:
+        break;
+    }
+    return [task.ID, fieldName, newValue];
+  };
   return (
     <tr
       className={
@@ -33,8 +56,8 @@ const TaskPanel = ({
         checkDLine(task.DEADLINE, task.PERIODICITY, status)
       }
       onClick={() => {
-        setSelectedTask(task.ID);
         setStatusView(defStatusView(status));
+        setSelectedTask({ taskID: task.ID, taskStatus: status });
       }}
     >
       <td className="task-list-table__td task-list-table__td_narrow">
@@ -47,7 +70,18 @@ const TaskPanel = ({
           doneByUser(user, task.USERID) //doneByUser adds modifier 'bold'
         }
       >
-        {selectedTask === task.ID ? <StatusButton text={stausView} /> : status}
+        {selectedTask.taskID === task.ID ? (
+          <StatusButton
+            text={statusView}
+            onClick={(event) => {
+              event.stopPropagation();
+              changetaskListValue(...newStatusProps());
+              setSelectedTask({ taskID: 0, taskStatus: '' });
+            }}
+          />
+        ) : (
+          status
+        )}
       </td>
     </tr>
   );

@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { dlinefromfloat, checkDLine, getStatus } from '../../utils/utils.js';
 
-export const useSortedTasks = (tasks, sort) => {
+export const useSortedTasks = (tasks, sort, changedStatus) => {
   const sortedTasks = useMemo(() => {
     if (sort) {
       return [...tasks].sort((a, b) => a[sort].localeCompare(b[sort]));
     }
     return tasks;
-  }, [sort, tasks]);
+  }, [sort, tasks, changedStatus]);
   return sortedTasks;
 };
 
@@ -42,15 +42,21 @@ export const useFilteredTasksWithStatus = (tasks, query) => {
   return filteredTasks;
 };
 
-export const useTasks = (tasks, sort, taskGroup, status) => {
-  const sortedTasks = useSortedTasks(tasks, sort);
+export const useTasks = (
+  tasks,
+  sort,
+  taskGroup,
+  statusFilter,
+  changedStatus
+) => {
+  const sortedTasks = useSortedTasks(tasks, sort, changedStatus);
   const sortedFilteredTasks = useFilteredTasks(
     sortedTasks,
     taskGroup,
     'TASK_GROUP'
   );
 
-  const result = useFilteredTasksWithStatus(sortedFilteredTasks, status);
+  const result = useFilteredTasksWithStatus(sortedFilteredTasks, statusFilter);
 
   return result;
 };

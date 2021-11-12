@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import StatusButton from './UI/button/StatusButton.jsx';
 import TaskPanel from './taskPanel.jsx';
 
-const TaskList = ({ taskList, user, selectedTask, setSelectedTask }) => {
-  const [stausView, setStatusView] = useState('');
+const TaskList = ({
+  taskList,
+  user,
+  selectedTask,
+  setSelectedTask,
+  changetaskListValue,
+}) => {
+  const [statusView, setStatusView] = useState('');
 
   return (
     <div className="task-list-container">
@@ -25,11 +30,12 @@ const TaskList = ({ taskList, user, selectedTask, setSelectedTask }) => {
               <TaskPanel
                 key={task.ID}
                 task={task}
-                stausView={stausView}
+                statusView={statusView}
                 setStatusView={setStatusView}
                 user={user}
                 selectedTask={selectedTask}
                 setSelectedTask={setSelectedTask}
+                changetaskListValue={changetaskListValue}
               />
             );
           })}
