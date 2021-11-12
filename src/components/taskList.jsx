@@ -9,8 +9,6 @@ const TaskList = ({ taskList, user, selectedTask, setSelectedTask }) => {
   const [stausView, setStatusView] = useState('');
   const defStatusView = (status) => {
     switch (status) {
-      case '':
-        return 'start';
       case 'inprocess':
         return 'finish';
       case 'done':

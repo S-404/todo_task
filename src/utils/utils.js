@@ -60,27 +60,21 @@ export const checkDLine = (dlineValue, periodicity, status) => {
 export const getStatus = (periodicity, started, finished) => {
   let d = new Date();
   d.setHours(0);
+  const resultStr = (checkDate) => {
+    if (started > checkDate) {
+      if (finished > started) return 'done';
+      return 'inprocess';
+    } else {
+      return '';
+    }
+  };
   switch (+periodicity) {
     case 1:
-      if (started > d) {
-        if (finished > started) return 'done';
-        return 'inprocess';
-      } else {
-        return '';
-      }
+      return resultStr(d);
     case 7:
-      if (started > firstDayOfWeek(d)) {
-        if (finished > started) return 'done';
-        return 'inprocess';
-      } else {
-        return '';
-      }
+      return resultStr(firstDayOfWeek(d));
     case 30:
-      if (started > firstDayOfMonth(d)) {
-        if (finished > started) return 'done';
-        return 'inprocess';
-      } else {
-        return '';
-      }
+      return resultStr(firstDayOfMonth(d));
   }
+  return '';
 };
