@@ -65,3 +65,23 @@
   color: #1e02bb;
   transition: color 0.5s ease-in;
 }
+
+.task-list-table__task-name-div {
+  position: relative;
+}
+.task-list-table__task-name-div .task-name-div__task-option-button {
+  border: 0 solid gray;
+  border-radius: 5px;
+  width: 30px;
+  height: 15px;
+  cursor: pointer;
+
+  position: absolute;
+  top: 0px;
+}
+.task-list-table__task-name-div .task-name-div__task-option-button_properties {
+  right: 5px;
+}
+.task-list-table__task-name-div .task-name-div__task-option-button_link {
+  right: 45px;
+}

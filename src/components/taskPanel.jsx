@@ -63,7 +63,21 @@ const TaskPanel = ({
       <td className="task-list-table__td task-list-table__td_narrow">
         {dlinefromfloat(task.DEADLINE, task.PERIODICITY)}
       </td>
-      <td className="task-list-table__td">{task.TASK_NAME}</td>
+      <td className="task-list-table__td">
+        {selectedTask.taskID === task.ID ? (
+          <div className="task-list-table__task-name-div">
+            {task.TASK_NAME}
+            <button className="task-name-div__task-option-button task-name-div__task-option-button_link">
+              link
+            </button>
+            <button className="task-name-div__task-option-button task-name-div__task-option-button_properties">
+              ...
+            </button>
+          </div>
+        ) : (
+          task.TASK_NAME
+        )}
+      </td>
       <td
         className={
           'task-list-table__td task-list-table__td_narrow task-list-table__td-status' +
