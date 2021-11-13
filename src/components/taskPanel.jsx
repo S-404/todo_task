@@ -10,6 +10,7 @@ const TaskPanel = ({
   selectedTask,
   setSelectedTask,
   changetaskListValue,
+  taskLinks,
 }) => {
   let status = getStatus(task.PERIODICITY, task.STARTED, task.FINISHED);
 
@@ -49,6 +50,24 @@ const TaskPanel = ({
     }
     return [task.ID, fieldName, newValue];
   };
+
+  const getNewSelectedTaskData = () => {
+    const tmpLinkArr = taskLinks.filter(
+      (taskLinksRow) =>
+        taskLinksRow['TASK_ID'] === task.ID &&
+        taskLinksRow['MAIN_TASK_LINK'] == 1
+    );
+    const mainLink = tmpLinkArr.length > 0 ? tmpLinkArr[0]['TASK_LINK'] : '';
+    const note = task['NOTE'];
+    return {
+      ...selectedTask,
+      taskID: task.ID,
+      taskStatus: status,
+      taskMainLink: mainLink,
+      taskNote: note,
+    };
+  };
+
   return (
     <tr
       className={
@@ -57,7 +76,7 @@ const TaskPanel = ({
       }
       onClick={() => {
         setStatusView(defStatusView(status));
-        setSelectedTask({ taskID: task.ID, taskStatus: status });
+        setSelectedTask(getNewSelectedTaskData());
       }}
     >
       <td className="task-list-table__td task-list-table__td_narrow">
@@ -67,12 +86,25 @@ const TaskPanel = ({
         {selectedTask.taskID === task.ID ? (
           <div className="task-list-table__task-name-div">
             {task.TASK_NAME}
-            <button className="task-name-div__task-option-button task-name-div__task-option-button_link">
-              link
-            </button>
-            <button className="task-name-div__task-option-button task-name-div__task-option-button_properties">
-              ...
-            </button>
+            <div className="task-name-div__task-option-buttons-div ">
+              <button className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_properties">
+                ...
+              </button>
+              {selectedTask.taskMainLink ? (
+                <button className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_link">
+                  link
+                </button>
+              ) : (
+                ''
+              )}
+              {selectedTask.taskNote ? (
+                <button className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_note">
+                  !
+                </button>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
         ) : (
           task.TASK_NAME
