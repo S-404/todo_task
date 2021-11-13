@@ -12,7 +12,27 @@ function App() {
 
   const [selectedUG, setSelectedUG] = useState(0);
   const [userGroups, setUserGroups] = useState([]);
-  const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
+  const [taskList, setTaskList] = useState([]);
+  const [taskLinks, setTaskLinks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState({
+    taskID: 0,
+    taskStatus: '',
+    taskMainLink: '',
+    taskNote: '',
+  });
+  const [filter, setFilter] = useState({
+    sort: '',
+    taskGroup: '',
+    status: '',
+  });
+  const uniqTaskGroups = useTaskGroups(taskList);
+  const sortedFilterdTasks = useTasks(
+    taskList,
+    filter.sort,
+    filter.taskGroup,
+    filter.status
+  );
+
   const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(
     async () => {
       const response = await Query.getData({
@@ -23,25 +43,7 @@ function App() {
       if (!selectedUG) setSelectedUG(defaultUG(response.data));
     }
   );
-  useEffect(async () => fetchUGData(), []);
 
-  const [taskList, setTaskList] = useState([]);
-  const [filter, setFilter] = useState({
-    sort: '',
-    taskGroup: '',
-    status: '',
-  });
-  const [selectedTask, setSelectedTask] = useState({
-    taskID: 0,
-    taskStatus: '',
-  });
-  const sortedFilterdTasks = useTasks(
-    taskList,
-    filter.sort,
-    filter.taskGroup,
-    filter.status
-  );
-  const uniqTaskGroups = useTaskGroups(taskList);
   const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(
     async () => {
       const response = await Query.getData({
@@ -52,8 +54,23 @@ function App() {
       setTaskList(response.data);
     }
   );
-  useEffect(async () => fetchTaskList(), [selectedUG]);
 
+  const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(
+    async () => {
+      const response = await Query.getData({
+        query: 'TASK_LINKS',
+        userid: user.userid,
+        selUG: selectedUG,
+      });
+      setTaskLinks(response.data);
+    }
+  );
+
+  useEffect(async () => fetchUGData(), []);
+  useEffect(async () => fetchTaskList(), [selectedUG]);
+  useEffect(async () => fetchTaskLinks(), [selectedUG]);
+
+  const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
   const changetaskListValue = (taskID, fieldName, newValue) => {
     let tmpArr = taskList;
     if (tmpArr.length > 0) {
@@ -81,6 +98,7 @@ function App() {
         selectedTask={selectedTask}
         setSelectedTask={setSelectedTask}
         changetaskListValue={changetaskListValue}
+        taskLinks={taskLinks}
       />
     </div>
   );
