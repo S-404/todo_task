@@ -69,19 +69,45 @@
 .task-list-table__task-name-div {
   position: relative;
 }
-.task-list-table__task-name-div .task-name-div__task-option-button {
-  border: 0 solid gray;
-  border-radius: 5px;
-  width: 30px;
-  height: 15px;
-  cursor: pointer;
 
+.task-name-div__task-option-buttons-div {
   position: absolute;
   top: 0px;
-}
-.task-list-table__task-name-div .task-name-div__task-option-button_properties {
   right: 5px;
+  width: 110px;
+  height: 16px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-items: center;
+  justify-content: flex-start;
 }
-.task-list-table__task-name-div .task-name-div__task-option-button_link {
-  right: 45px;
+
+.task-option-buttons-div__task-option-button {
+  border: 0 solid gray;
+  border-radius: 5px;
+  width: 35px;
+  height: 15px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.task-option-buttons-div__task-option-button_note {
+  background-color: yellow;
+  color: red;
+  font-weight: bold;
+  cursor: help;
+}
+.task-option-buttons-div__task-option-button_note:active {
+  background-color: rgba(255, 255, 0, 0.721);
+  color: rgba(255, 0, 0, 0.816);
+}
+
+.task-option-buttons-div__task-option-button_link {
+  background-color: lightskyblue;
+}
+.task-option-buttons-div__task-option-button_link:hover {
+  background-color: rgba(135, 206, 250, 0.83);
+}
+.task-option-buttons-div__task-option-button_link:active {
+  background-color: rgba(72, 165, 223, 0.952);
 }
