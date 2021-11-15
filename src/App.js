@@ -6,6 +6,9 @@ import TaskFilter from './components/taskFilter';
 import TaskList from './components/taskList';
 import './styles/table.css';
 import './styles/app.css';
+import MyModal from './components/UI/modal/myModal';
+import TaskPropertiesForm from './components/taskPropertiesForm';
+import TaskCreationForm from './components/taskCreationForm';
 
 function App() {
   const user = { userid: 'user' }; //test user obj
@@ -32,6 +35,8 @@ function App() {
     filter.taskGroup,
     filter.status
   );
+  const [modalNewTask, setModalNewTask] = useState(false);
+  const [modalTaskProp, setModalTaskProp] = useState(false);
 
   const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(
     async () => {
@@ -81,9 +86,21 @@ function App() {
     }
     setTaskList(tmpArr);
   };
-
+  const createTask = (newTask) => {
+    console.log(newTask);
+    setModalNewTask(false);
+  };
   return (
     <div className="App">
+      <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
+        <TaskCreationForm
+          createTask={createTask}
+          uniqTaskGroups={uniqTaskGroups}
+        />
+      </MyModal>
+      {/* <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
+        <TaskPropertiesForm />
+      </MyModal> */}
       <TaskFilter
         defaultUGvalue={defaultUG(userGroups)}
         setSelectedUG={setSelectedUG}
@@ -92,6 +109,7 @@ function App() {
         setFilter={setFilter}
         uniqTaskGroups={uniqTaskGroups}
       />
+      <button onClick={() => setModalNewTask(true)}>New Task</button>
       <TaskList
         taskList={sortedFilterdTasks}
         user={user.userid}
