@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StatusButton from './UI/button/StatusButton.jsx';
+import StatusButton from './UI/button/statusButton.jsx';
 import { dlinefromfloat, checkDLine, getStatus } from '../utils/utils.js';
 
 const TaskPanel = ({

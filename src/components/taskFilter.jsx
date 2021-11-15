@@ -1,5 +1,5 @@
 import React from 'react';
-import MySelect from './UI/select/MySelect';
+import MySelect from './UI/select/mySelect';
 
 const TaskFilter = ({
   defaultUGvalue,

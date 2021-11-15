@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './StatusButton.module.css';
+import classes from './statusButton.module.css';
 
 const StatusButton = ({ text, ...props }) => {
   return (
