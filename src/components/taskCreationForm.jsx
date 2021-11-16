@@ -1,26 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyComboBox from './UI/combobox/myComboBox';
 import MyInput from './UI/input/myInput';
 import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
+import { wkdays, pad, dlineToFloat } from '../utils/utils';
 
 const TaskCreationForm = ({ create, uniqTaskGroups }) => {
   const [task, setTask] = useState({
     TASK_NAME: 'New Task Name',
     PERIODICITY: 1,
-    DEADLINE: 0,
+    DEADLINE: 1,
     TASK_GROUP: '',
     TASK_DESCRIPTION: '',
   });
 
-  let periodicity = [
-    { name: 'Daily', value: 1 },
-    { name: 'Weekly', value: 7 },
-    { name: 'Monthly', value: 30 },
-  ];
+  const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues(1));
+
   const defPeriodicity = (val) => {
     return periodicity.filter((x) => x.value === val).name;
   };
+
+  function dLinePickerValues(periodicityValue) {
+    const dlineObj = [];
+    switch (periodicityValue) {
+      case 1:
+        for (let hh = 0; hh <= 23; hh++) {
+          for (let mm = 0; mm <= 59; mm += 15) {
+            dlineObj.push({
+              name: `${pad(hh, 2)}:${pad(mm, 2)}`,
+              value: dlineToFloat(hh, mm),
+            });
+          }
+        }
+        break;
+      case 7:
+        wkdays.map((item, index) => {
+          dlineObj.push({ name: item, value: index });
+        });
+        break;
+      case 30:
+        for (let d = 1; d <= 31; d++) {
+          dlineObj.push({ name: d, value: d });
+        }
+        break;
+      default:
+        dlineObj.push({ name: '', value: '' });
+        break;
+    }
+    return dlineObj;
+  }
+
+  let periodicity = [
+    { name: 'Daily', value: 1, dlineArr: dLinePickerValues(1) },
+    { name: 'Weekly', value: 7, dlineArr: dLinePickerValues(7) },
+    { name: 'Monthly', value: 30, dlineArr: dLinePickerValues(30) },
+  ];
+
   return (
     <form>
       <MyInput
@@ -47,9 +82,20 @@ const TaskCreationForm = ({ create, uniqTaskGroups }) => {
         value={defPeriodicity(task.PERIODICITY)}
         options={periodicity}
         defaultValue="Periodicity"
-        onChange={(selectedPeriodicity) =>
-          setTask({ ...task, PERIODICITY: selectedPeriodicity })
-        }
+        onChange={(selectedPeriodicity) => {
+          setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: 1 });
+          setDlinePickerVal(
+            periodicity.filter((x) => x.value === +selectedPeriodicity)[0].dlineArr
+          );
+        }}
+      />
+      <MySelect
+        value={task.DEADLINE}
+        options={dlinePickerVal}
+        defaultValue="Deadline"
+        onChange={(selectedDline) => {
+          setTask({ ...task, DEADLINE: selectedDline });
+        }}
       />
     </form>
   );

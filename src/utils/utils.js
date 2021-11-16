@@ -1,6 +1,8 @@
-const pad = (num, places) => String(num).padStart(places, '0');
+export const pad = (num, places) => String(num).padStart(places, '0');
 const firstDayOfWeek = (date) => date.setDate(date.getDate() - date.getDay());
 const firstDayOfMonth = (date) => date.setDate(1);
+
+export const wkdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const dlinefromfloat = (dlineValue, periodicity) => {
   switch (+periodicity) {
@@ -11,7 +13,6 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
       return `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}`;
 
     case 7:
-      let wkdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       return wkdays[dlineValue - 1];
 
     case 30:
@@ -20,6 +21,13 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
     default:
       return '00:00';
   }
+};
+
+export const dlineToFloat = (hh, mm) => {
+  let gotMinutes = hh * 60 + mm;
+  let dayTotalMinutes = 24 * 60;
+  let result = gotMinutes / dayTotalMinutes;
+  return Math.round(result * 10000) / 10000;
 };
 
 export const checkDLine = (dlineValue, periodicity, status) => {
