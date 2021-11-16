@@ -39,10 +39,12 @@ const TaskFilter = ({
             taskGroup: selectedFilter,
           })
         }
-        options={uniqTaskGroups.map((x) => ({
-          value: x,
-          name: x,
-        }))}
+        options={[{ value: 'All', name: 'All' }].concat(
+          uniqTaskGroups.map((x) => ({
+            value: x,
+            name: x,
+          }))
+        )}
       ></MySelect>
 
       <MySelect
@@ -55,8 +57,8 @@ const TaskFilter = ({
           })
         }
         options={[
-          { value: 'all', name: 'All' },
-          { value: '', name: 'To do' },
+          { value: 'All', name: 'All' },
+          { value: 'todo', name: 'To do' },
           { value: 'inprocess', name: 'In process' },
           { value: 'done', name: 'Done' },
         ]}

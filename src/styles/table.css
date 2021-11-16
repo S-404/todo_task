@@ -41,6 +41,10 @@
 
 /*STATUSES*/
 
+.task-list-table__td-status {
+  color: #1e02bb00;
+}
+
 .task-list-table__td-status_bold {
   font-weight: bold;
 }

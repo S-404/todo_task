@@ -33,7 +33,7 @@ export const dlineToFloat = (hh, mm) => {
 export const checkDLine = (dlineValue, periodicity, status) => {
   let checkstatus = status === null ? '' : status.replace(' ', '');
   //task is done/in process
-  if (checkstatus !== '') return checkstatus;
+  if (checkstatus !== 'todo') return checkstatus;
 
   //task is not done -> check deadline   is missed/righttime
   let result = '';
@@ -73,7 +73,7 @@ export const getStatus = (periodicity, started, finished) => {
       if (finished > started) return 'done';
       return 'inprocess';
     } else {
-      return '';
+      return 'todo';
     }
   };
   switch (+periodicity) {

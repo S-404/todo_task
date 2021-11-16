@@ -53,7 +53,11 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
 
   const addNewTask = (e) => {
     e.preventDefault();
-    const newTask = { ...task, ID: Date.now() };
+    const newTask = {
+      ...task,
+      ID: Date.now(),
+      TASK_GROUP: task.TASK_GROUP === '' ? 'New Tasks' : task.TASK_GROUP,
+    };
     createTask(newTask);
     setTask({
       TASK_NAME: 'New Task Name',

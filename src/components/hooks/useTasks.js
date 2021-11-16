@@ -13,10 +13,10 @@ export const useSortedTasks = (tasks, sort, changedStatus) => {
 
 export const useFilteredTasks = (tasks, query, filterColumn) => {
   const filteredTasks = useMemo(() => {
-    if (query && filterColumn) {
+    if (query && filterColumn && query !== 'All') {
       return tasks.filter((task) => {
         let str = task[filterColumn] === null ? '' : task[filterColumn].toLocaleLowerCase();
-        return str.includes(query);
+        return str.includes(query.toLocaleLowerCase());
       });
     }
     return tasks;
@@ -26,7 +26,7 @@ export const useFilteredTasks = (tasks, query, filterColumn) => {
 
 export const useFilteredTasksWithStatus = (tasks, query) => {
   const filteredTasks = useMemo(() => {
-    if (query && query !== 'all') {
+    if (query && query !== 'All') {
       return tasks.filter((task) => {
         return getStatus(task['PERIODICITY'], task['STARTED'], task['FINISHED']) === query;
       });
