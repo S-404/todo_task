@@ -24,52 +24,41 @@ function App() {
     taskNote: '',
   });
   const [filter, setFilter] = useState({
-    sort: '',
+    sort: 'DEADLINE',
     taskGroup: '',
     status: '',
   });
   const uniqTaskGroups = useTaskGroups(taskList);
-  const sortedFilterdTasks = useTasks(
-    taskList,
-    filter.sort,
-    filter.taskGroup,
-    filter.status
-  );
+  const sortedFilterdTasks = useTasks(taskList, filter.sort, filter.taskGroup, filter.status);
   const [modalNewTask, setModalNewTask] = useState(false);
   const [modalTaskProp, setModalTaskProp] = useState(false);
 
-  const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(
-    async () => {
-      const response = await Query.getData({
-        query: 'USERGROUPS',
-        userid: user.userid,
-      });
-      setUserGroups(response.data);
-      if (!selectedUG) setSelectedUG(defaultUG(response.data));
-    }
-  );
+  const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(async () => {
+    const response = await Query.getData({
+      query: 'USERGROUPS',
+      userid: user.userid,
+    });
+    setUserGroups(response.data);
+    if (!selectedUG) setSelectedUG(defaultUG(response.data));
+  });
 
-  const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(
-    async () => {
-      const response = await Query.getData({
-        query: 'TASK_LIST',
-        userid: user.userid,
-        selUG: selectedUG,
-      });
-      setTaskList(response.data);
-    }
-  );
+  const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
+    const response = await Query.getData({
+      query: 'TASK_LIST',
+      userid: user.userid,
+      selUG: selectedUG,
+    });
+    setTaskList(response.data);
+  });
 
-  const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(
-    async () => {
-      const response = await Query.getData({
-        query: 'TASK_LINKS',
-        userid: user.userid,
-        selUG: selectedUG,
-      });
-      setTaskLinks(response.data);
-    }
-  );
+  const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(async () => {
+    const response = await Query.getData({
+      query: 'TASK_LINKS',
+      userid: user.userid,
+      selUG: selectedUG,
+    });
+    setTaskLinks(response.data);
+  });
 
   useEffect(async () => fetchUGData(), []);
   useEffect(async () => fetchTaskList(), [selectedUG]);
@@ -80,23 +69,19 @@ function App() {
     let tmpArr = taskList;
     if (tmpArr.length > 0) {
       tmpArr.filter((task) => task.ID === taskID)[0][fieldName] = newValue;
-      tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] =
-        Date.now();
+      tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] = Date.now();
       tmpArr.filter((task) => task.ID === taskID)[0]['USERID'] = user.userid;
     }
     setTaskList(tmpArr);
   };
   const createTask = (newTask) => {
-    console.log(newTask);
+    setTaskList([...taskList, newTask]);
     setModalNewTask(false);
   };
   return (
     <div className="App">
       <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
-        <TaskCreationForm
-          createTask={createTask}
-          uniqTaskGroups={uniqTaskGroups}
-        />
+        <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups} />
       </MyModal>
       {/* <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
         <TaskPropertiesForm />

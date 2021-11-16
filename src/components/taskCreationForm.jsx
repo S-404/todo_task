@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import MyComboBox from './UI/combobox/myComboBox';
 import MyInput from './UI/input/myInput';
+import MyButton from './UI/button/myButton';
 import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
 import { wkdays, pad, dlineToFloat } from '../utils/utils';
 
-const TaskCreationForm = ({ create, uniqTaskGroups }) => {
+const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
   const [task, setTask] = useState({
     TASK_NAME: 'New Task Name',
-    PERIODICITY: 1,
-    DEADLINE: 1,
+    PERIODICITY: '1',
+    DEADLINE: '1',
     TASK_GROUP: '',
     TASK_DESCRIPTION: '',
   });
 
-  const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues(1));
+  const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues('1'));
 
   const defPeriodicity = (val) => {
     return periodicity.filter((x) => x.value === val).name;
@@ -23,24 +24,24 @@ const TaskCreationForm = ({ create, uniqTaskGroups }) => {
   function dLinePickerValues(periodicityValue) {
     const dlineObj = [];
     switch (periodicityValue) {
-      case 1:
+      case '1':
         for (let hh = 0; hh <= 23; hh++) {
           for (let mm = 0; mm <= 59; mm += 15) {
             dlineObj.push({
               name: `${pad(hh, 2)}:${pad(mm, 2)}`,
-              value: dlineToFloat(hh, mm),
+              value: `${dlineToFloat(hh, mm)}`,
             });
           }
         }
         break;
-      case 7:
+      case '7':
         wkdays.map((item, index) => {
-          dlineObj.push({ name: item, value: index });
+          dlineObj.push({ name: item, value: `${index}` });
         });
         break;
-      case 30:
+      case '30':
         for (let d = 1; d <= 31; d++) {
-          dlineObj.push({ name: d, value: d });
+          dlineObj.push({ name: d, value: `${d}` });
         }
         break;
       default:
@@ -50,10 +51,23 @@ const TaskCreationForm = ({ create, uniqTaskGroups }) => {
     return dlineObj;
   }
 
+  const addNewTask = (e) => {
+    e.preventDefault();
+    const newTask = { ...task, ID: Date.now() };
+    createTask(newTask);
+    setTask({
+      TASK_NAME: 'New Task Name',
+      PERIODICITY: '1',
+      DEADLINE: '1',
+      TASK_GROUP: '',
+      TASK_DESCRIPTION: '',
+    });
+  };
+
   let periodicity = [
-    { name: 'Daily', value: 1, dlineArr: dLinePickerValues(1) },
-    { name: 'Weekly', value: 7, dlineArr: dLinePickerValues(7) },
-    { name: 'Monthly', value: 30, dlineArr: dLinePickerValues(30) },
+    { name: 'Daily', value: '1', dlineArr: dLinePickerValues('1') },
+    { name: 'Weekly', value: '7', dlineArr: dLinePickerValues('7') },
+    { name: 'Monthly', value: '30', dlineArr: dLinePickerValues('30') },
   ];
 
   return (
@@ -83,10 +97,8 @@ const TaskCreationForm = ({ create, uniqTaskGroups }) => {
         options={periodicity}
         defaultValue="Periodicity"
         onChange={(selectedPeriodicity) => {
-          setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: 1 });
-          setDlinePickerVal(
-            periodicity.filter((x) => x.value === +selectedPeriodicity)[0].dlineArr
-          );
+          setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
+          setDlinePickerVal(periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr);
         }}
       />
       <MySelect
@@ -97,6 +109,7 @@ const TaskCreationForm = ({ create, uniqTaskGroups }) => {
           setTask({ ...task, DEADLINE: selectedDline });
         }}
       />
+      <MyButton onClick={addNewTask}> Create Task </MyButton>
     </form>
   );
 };
