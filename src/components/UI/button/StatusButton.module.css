@@ -1,7 +1,15 @@
 .statusButton {
+  background-color: rgb(230, 230, 230);
   padding: 0 0;
   border: 0 solid gray;
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
+}
+
+.statusButton:hover {
+  background-color: rgb(194, 194, 194);
+}
+.statusButton:active {
+  background-color: rgb(128, 128, 128);
 }

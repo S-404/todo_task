@@ -22,7 +22,7 @@
 
 .task-list-container {
   background-color: whitesmoke;
-  height: 95vh;
+  height: 90vh;
   overflow-y: scroll;
   border-radius: var(--border-radius-val);
   border: solid 2px lightgray;
