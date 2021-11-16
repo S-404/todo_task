@@ -8,6 +8,7 @@ const TaskList = ({
   setSelectedTask,
   changetaskListValue,
   taskLinks,
+  setVisibleProp,
 }) => {
   const [statusView, setStatusView] = useState('');
 
@@ -34,6 +35,7 @@ const TaskList = ({
                 setSelectedTask={setSelectedTask}
                 changetaskListValue={changetaskListValue}
                 taskLinks={taskLinks}
+                setVisibleProp={setVisibleProp}
               />
             );
           })}

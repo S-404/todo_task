@@ -18,11 +18,14 @@ function App() {
   const [taskList, setTaskList] = useState([]);
   const [taskLinks, setTaskLinks] = useState([]);
   const [selectedTask, setSelectedTask] = useState({
-    taskID: 0,
-    taskStatus: '',
+    ID: 0,
+    STATUS: '',
     taskMainLink: '',
-    taskNote: '',
+    NOTE: '',
   });
+  const [taskProp, setTaskProp] = useState([]);
+  useEffect(async () => setTaskProp(selectedTask), [selectedTask.ID]);
+
   const [filter, setFilter] = useState({
     sort: 'DEADLINE',
     taskGroup: '',
@@ -83,9 +86,14 @@ function App() {
       <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
         <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups} />
       </MyModal>
-      {/* <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
-        <TaskPropertiesForm />
-      </MyModal> */}
+      <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
+        <TaskPropertiesForm
+          task={taskProp}
+          setTask={setTaskProp}
+          selectedTask={selectedTask}
+          uniqTaskGroups={uniqTaskGroups}
+        />
+      </MyModal>
       <TaskFilter
         defaultUGvalue={defaultUG(userGroups)}
         setSelectedUG={setSelectedUG}
@@ -102,6 +110,7 @@ function App() {
         setSelectedTask={setSelectedTask}
         changetaskListValue={changetaskListValue}
         taskLinks={taskLinks}
+        setVisibleProp={setModalTaskProp}
       />
     </div>
   );

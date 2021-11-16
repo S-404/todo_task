@@ -87,7 +87,7 @@ export const getStatus = (periodicity, started, finished) => {
   return '';
 };
 
-export const dLinePickerValues = (periodicityValue) => {
+export function dLinePickerValues(periodicityValue) {
   const dlineObj = [];
   switch (periodicityValue) {
     case '1':
@@ -115,4 +115,14 @@ export const dLinePickerValues = (periodicityValue) => {
       break;
   }
   return dlineObj;
-};
+}
+
+export function defPeriodicity(val) {
+  return periodicity.filter((x) => x.value === val).name;
+}
+
+export const periodicity = [
+  { name: 'Daily', value: '1', dlineArr: dLinePickerValues('1') },
+  { name: 'Weekly', value: '7', dlineArr: dLinePickerValues('7') },
+  { name: 'Monthly', value: '30', dlineArr: dLinePickerValues('30') },
+];

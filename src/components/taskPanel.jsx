@@ -11,6 +11,7 @@ const TaskPanel = ({
   setSelectedTask,
   changetaskListValue,
   taskLinks,
+  setVisibleProp,
 }) => {
   let status = getStatus(task.PERIODICITY, task.STARTED, task.FINISHED);
 
@@ -54,14 +55,20 @@ const TaskPanel = ({
     const tmpLinkArr = taskLinks.filter(
       (taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID && taskLinksRow['MAIN_TASK_LINK'] == 1
     );
-    const mainLink = tmpLinkArr.length > 0 ? tmpLinkArr[0]['TASK_LINK'] : '';
-    const note = task['NOTE'];
+
     return {
       ...selectedTask,
-      taskID: task.ID,
-      taskStatus: status,
-      taskMainLink: mainLink,
-      taskNote: note,
+      ID: task.ID,
+      TASK_NAME: task.TASK_NAME,
+      PERIODICITY: task.PERIODICITY,
+      DEADLINE: task.DEADLINE,
+      STATUS: status,
+      USERID: task.USERID,
+      TASK_GROUP: task.TASK_GROUP,
+      TASK_DESCRIPTION: task.TASK_DESCRIPTION,
+      LAST_CHANGE: task.LAST_CHANGE,
+      NOTE: task['NOTE'],
+      taskMainLink: tmpLinkArr.length > 0 ? tmpLinkArr[0]['TASK_LINK'] : '',
     };
   };
 
@@ -80,11 +87,14 @@ const TaskPanel = ({
         {dlinefromfloat(task.DEADLINE, task.PERIODICITY)}
       </td>
       <td className="task-list-table__td">
-        {selectedTask.taskID === task.ID ? (
+        {selectedTask.ID === task.ID ? (
           <div className="task-list-table__task-name-div">
             {task.TASK_NAME}
             <div className="task-name-div__task-option-buttons-div ">
-              <button className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_properties">
+              <button
+                onClick={() => setVisibleProp(true)}
+                className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_properties"
+              >
                 ...
               </button>
               {selectedTask.taskMainLink ? (
@@ -94,7 +104,7 @@ const TaskPanel = ({
               ) : (
                 ''
               )}
-              {selectedTask.taskNote ? (
+              {selectedTask.NOTE ? (
                 <button className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_note">
                   !
                 </button>
@@ -113,13 +123,13 @@ const TaskPanel = ({
           doneByUser(user, task.USERID) //doneByUser adds modifier 'bold'
         }
       >
-        {selectedTask.taskID === task.ID ? (
+        {selectedTask.ID === task.ID ? (
           <StatusButton
             text={statusView}
             onClick={(event) => {
               event.stopPropagation();
               changetaskListValue(...newStatusProps());
-              setSelectedTask({ taskID: 0, taskStatus: '' });
+              setSelectedTask({ ID: 0, STATUS: '' });
             }}
           />
         ) : (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyComboBox from './UI/combobox/myComboBox';
 import MyInput from './UI/input/myInput';
 import MyButton from './UI/button/myButton';
@@ -6,36 +6,10 @@ import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
 import { dLinePickerValues, defPeriodicity, periodicity } from '../utils/utils';
 
-const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
-  const [task, setTask] = useState({
-    TASK_NAME: 'New Task Name',
-    PERIODICITY: '1',
-    DEADLINE: '1',
-    TASK_GROUP: '',
-    TASK_DESCRIPTION: '',
-  });
-
+const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups }) => {
   const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues('1'));
-
-  const addNewTask = (e) => {
-    e.preventDefault();
-    const newTask = {
-      ...task,
-      ID: Date.now(),
-      TASK_GROUP: task.TASK_GROUP === '' ? 'New Tasks' : task.TASK_GROUP,
-    };
-    createTask(newTask);
-    setTask({
-      TASK_NAME: 'New Task Name',
-      PERIODICITY: '1',
-      DEADLINE: '1',
-      TASK_GROUP: '',
-      TASK_DESCRIPTION: '',
-    });
-  };
-
   return (
-    <form>
+    <div>
       <MyInput
         value={task.TASK_NAME}
         type="text"
@@ -50,12 +24,14 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
         value={task.TASK_GROUP}
         onChange={(value) => setTask({ ...task, TASK_GROUP: value })}
       />
+
       <MyTextArea
         value={task.TASK_DESCRIPTION}
         type="text"
         placeholder="Description"
         onChange={(e) => setTask({ ...task, TASK_DESCRIPTION: e.target.value })}
       />
+
       <MySelect
         value={defPeriodicity(task.PERIODICITY)}
         options={periodicity}
@@ -65,6 +41,7 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
           setDlinePickerVal(periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr);
         }}
       />
+
       <MySelect
         value={task.DEADLINE}
         options={dlinePickerVal}
@@ -73,9 +50,9 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
           setTask({ ...task, DEADLINE: selectedDline });
         }}
       />
-      <MyButton onClick={addNewTask}> Create Task </MyButton>
-    </form>
+      <MyButton onClick={() => console.log(task)}> Update Task </MyButton>
+    </div>
   );
 };
 
-export default TaskCreationForm;
+export default TaskPropertiesForm;
