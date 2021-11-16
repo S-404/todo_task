@@ -4,7 +4,7 @@ import MyInput from './UI/input/myInput';
 import MyButton from './UI/button/myButton';
 import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
-import { wkdays, pad, dlineToFloat } from '../utils/utils';
+import { dLinePickerValues } from '../utils/utils';
 
 const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
   const [task, setTask] = useState({
@@ -20,36 +20,6 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
   const defPeriodicity = (val) => {
     return periodicity.filter((x) => x.value === val).name;
   };
-
-  function dLinePickerValues(periodicityValue) {
-    const dlineObj = [];
-    switch (periodicityValue) {
-      case '1':
-        for (let hh = 0; hh <= 23; hh++) {
-          for (let mm = 0; mm <= 59; mm += 15) {
-            dlineObj.push({
-              name: `${pad(hh, 2)}:${pad(mm, 2)}`,
-              value: `${dlineToFloat(hh, mm)}`,
-            });
-          }
-        }
-        break;
-      case '7':
-        wkdays.map((item, index) => {
-          dlineObj.push({ name: item, value: `${index}` });
-        });
-        break;
-      case '30':
-        for (let d = 1; d <= 31; d++) {
-          dlineObj.push({ name: d, value: `${d}` });
-        }
-        break;
-      default:
-        dlineObj.push({ name: '', value: '' });
-        break;
-    }
-    return dlineObj;
-  }
 
   const addNewTask = (e) => {
     e.preventDefault();

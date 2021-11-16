@@ -86,3 +86,33 @@ export const getStatus = (periodicity, started, finished) => {
   }
   return '';
 };
+
+export const dLinePickerValues = (periodicityValue) => {
+  const dlineObj = [];
+  switch (periodicityValue) {
+    case '1':
+      for (let hh = 0; hh <= 23; hh++) {
+        for (let mm = 0; mm <= 59; mm += 15) {
+          dlineObj.push({
+            name: `${pad(hh, 2)}:${pad(mm, 2)}`,
+            value: `${dlineToFloat(hh, mm)}`,
+          });
+        }
+      }
+      break;
+    case '7':
+      wkdays.map((item, index) => {
+        dlineObj.push({ name: item, value: `${index}` });
+      });
+      break;
+    case '30':
+      for (let d = 1; d <= 31; d++) {
+        dlineObj.push({ name: d, value: `${d}` });
+      }
+      break;
+    default:
+      dlineObj.push({ name: '', value: '' });
+      break;
+  }
+  return dlineObj;
+};

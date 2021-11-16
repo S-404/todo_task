@@ -25,8 +25,7 @@ const TaskPanel = ({
     }
   };
 
-  const doneByUser = (user, complitedBy) =>
-    complitedBy === user ? '_bold' : '';
+  const doneByUser = (user, complitedBy) => (complitedBy === user ? '_bold' : '');
 
   const newStatusProps = () => {
     let newValue;
@@ -53,9 +52,7 @@ const TaskPanel = ({
 
   const getNewSelectedTaskData = () => {
     const tmpLinkArr = taskLinks.filter(
-      (taskLinksRow) =>
-        taskLinksRow['TASK_ID'] === task.ID &&
-        taskLinksRow['MAIN_TASK_LINK'] == 1
+      (taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID && taskLinksRow['MAIN_TASK_LINK'] == 1
     );
     const mainLink = tmpLinkArr.length > 0 ? tmpLinkArr[0]['TASK_LINK'] : '';
     const note = task['NOTE'];
