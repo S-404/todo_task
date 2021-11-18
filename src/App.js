@@ -29,6 +29,7 @@ function App() {
     LAST_CHANGE: 0,
     NOTE: '',
     taskMainLink: '',
+    taskLinks: [{ TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: '' }],
   });
   const [filter, setFilter] = useState({
     sort: 'DEADLINE',
@@ -81,10 +82,19 @@ function App() {
     }
     setTaskList(tmpArr);
   };
-  const createTask = (newTask) => {
-    setTaskList([...taskList, newTask]);
+  const createTask = (taskObj) => {
+    setTaskList([...taskList, taskObj]);
     setModalNewTask(false);
   };
+  const updateTask = (taskObj) => {
+    setTaskList([...taskList.filter((x) => x.ID !== taskObj.ID), taskObj]);
+    setModalTaskProp(false);
+  };
+  const removeTask = (taskObj) => {
+    setTaskList(taskList.filter((x) => x.ID !== taskObj.ID));
+    setModalTaskProp(false);
+  };
+
   return (
     <div className="App">
       <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
@@ -95,6 +105,8 @@ function App() {
           task={selectedTask}
           setTask={setSelectedTask}
           uniqTaskGroups={uniqTaskGroups}
+          updateTask={updateTask}
+          removeTask={removeTask}
         />
       </MyModal>
       <TaskFilter

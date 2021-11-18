@@ -53,9 +53,8 @@ const TaskPanel = ({
   };
 
   const getNewSelectedTaskData = () => {
-    const tmpLinkArr = taskLinks.filter(
-      (taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID && taskLinksRow['MAIN_TASK_LINK'] == 1
-    );
+    const linksArr = taskLinks.filter((taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID);
+    const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] == 1);
 
     return {
       ...selectedTask,
@@ -68,8 +67,9 @@ const TaskPanel = ({
       TASK_GROUP: task.TASK_GROUP,
       TASK_DESCRIPTION: task.TASK_DESCRIPTION,
       LAST_CHANGE: task.LAST_CHANGE,
-      NOTE: task['NOTE'],
-      taskMainLink: tmpLinkArr.length > 0 ? tmpLinkArr[0]['TASK_LINK'] : '',
+      NOTE: task['NOTE'] ? task['NOTE'] : '',
+      taskMainLink: mainLink.length > 0 ? mainLink[0]['TASK_LINK'] : '',
+      taskLinks: [...linksArr],
     };
   };
 
