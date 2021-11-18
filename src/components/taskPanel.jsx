@@ -26,7 +26,8 @@ const TaskPanel = ({
     }
   };
 
-  const doneByUser = (user, complitedBy) => (complitedBy === user ? '_bold' : '');
+  const doneByUser = (user, complitedBy, status) =>
+    complitedBy === user && status !== 'todo' ? '_bold' : '';
 
   const newStatusProps = () => {
     let newValue;
@@ -120,7 +121,7 @@ const TaskPanel = ({
       <td
         className={
           'task-list-table__td task-list-table__td_narrow task-list-table__td-status' +
-          doneByUser(user, task.USERID) //doneByUser adds modifier 'bold'
+          doneByUser(user, task.USERID, status) //doneByUser adds modifier 'bold'
         }
       >
         {selectedTask.ID === task.ID ? (
@@ -129,7 +130,7 @@ const TaskPanel = ({
             onClick={(event) => {
               event.stopPropagation();
               changetaskListValue(...newStatusProps());
-              setSelectedTask({ ID: 0, STATUS: '' });
+              setSelectedTask({ ...task, ID: 0, STATUS: '' });
             }}
           />
         ) : (

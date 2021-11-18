@@ -19,13 +19,17 @@ function App() {
   const [taskLinks, setTaskLinks] = useState([]);
   const [selectedTask, setSelectedTask] = useState({
     ID: 0,
+    TASK_NAME: '',
+    PERIODICITY: 0,
+    DEADLINE: 0,
     STATUS: '',
-    taskMainLink: '',
+    USERID: '',
+    TASK_GROUP: '',
+    TASK_DESCRIPTION: '',
+    LAST_CHANGE: 0,
     NOTE: '',
+    taskMainLink: '',
   });
-  const [taskProp, setTaskProp] = useState([]);
-  useEffect(async () => setTaskProp(selectedTask), [selectedTask.ID]);
-
   const [filter, setFilter] = useState({
     sort: 'DEADLINE',
     taskGroup: '',
@@ -88,9 +92,8 @@ function App() {
       </MyModal>
       <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
         <TaskPropertiesForm
-          task={taskProp}
-          setTask={setTaskProp}
-          selectedTask={selectedTask}
+          task={selectedTask}
+          setTask={setSelectedTask}
           uniqTaskGroups={uniqTaskGroups}
         />
       </MyModal>
