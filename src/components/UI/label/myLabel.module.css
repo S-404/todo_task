@@ -1,0 +1,8 @@
+.myLabel {
+  position: absolute;
+  left: 0px;
+  top: -15px;
+  overflow: hidden;
+  color: #999;
+  white-space: nowrap;
+}
