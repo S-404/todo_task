@@ -11,13 +11,10 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
       d.setHours(0);
       d.setMinutes(24 * dlineValue * 60);
       return `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}`;
-
     case 7:
       return wkdays[dlineValue - 1];
-
     case 30:
       return (+dlineValue).toFixed(0);
-
     default:
       return '00:00';
   }
@@ -83,8 +80,9 @@ export const getStatus = (periodicity, started, finished) => {
       return resultStr(firstDayOfWeek(d));
     case 30:
       return resultStr(firstDayOfMonth(d));
+    default:
+      return '';
   }
-  return '';
 };
 
 export function dLinePickerValues(periodicityValue) {
@@ -101,9 +99,7 @@ export function dLinePickerValues(periodicityValue) {
       }
       break;
     case '7':
-      wkdays.map((item, index) => {
-        dlineObj.push({ name: item, value: `${index}` });
-      });
+      wkdays.map((item, index) => ({ name: item, value: `${index}` }), dlineObj);
       break;
     case '30':
       for (let d = 1; d <= 31; d++) {

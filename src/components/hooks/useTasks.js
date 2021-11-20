@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { dlinefromfloat, checkDLine, getStatus } from '../../utils/utils.js';
+import { getStatus } from '../../utils/utils.js';
 
 export const useSortedTasks = (tasks, sort, changedStatus) => {
   const sortedTasks = useMemo(() => {

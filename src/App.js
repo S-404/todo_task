@@ -69,8 +69,10 @@ function App() {
   });
 
   useEffect(async () => fetchUGData(), []);
-  useEffect(async () => fetchTaskList(), [selectedUG]);
-  useEffect(async () => fetchTaskLinks(), [selectedUG]);
+  useEffect(async () => {
+    fetchTaskList();
+    fetchTaskLinks();
+  }, [selectedUG]);
 
   const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
   const changetaskListValue = (taskID, fieldName, newValue) => {

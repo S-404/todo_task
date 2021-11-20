@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StatusButton from './UI/button/statusButton.jsx';
 import { dlinefromfloat, checkDLine, getStatus } from '../utils/utils.js';
 
@@ -54,7 +54,7 @@ const TaskPanel = ({
 
   const getNewSelectedTaskData = () => {
     const linksArr = taskLinks.filter((taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID);
-    const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] == 1);
+    const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] === '1');
 
     return {
       ...selectedTask,
@@ -69,7 +69,9 @@ const TaskPanel = ({
       LAST_CHANGE: task.LAST_CHANGE,
       NOTE: task['NOTE'] ? task['NOTE'] : '',
       taskMainLink: mainLink.length > 0 ? mainLink[0]['TASK_LINK'] : '',
-      taskLinks: [...linksArr],
+      taskLinks: linksArr.length
+        ? [...linksArr]
+        : [{ TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: '' }],
     };
   };
 
@@ -130,7 +132,7 @@ const TaskPanel = ({
             onClick={(event) => {
               event.stopPropagation();
               changetaskListValue(...newStatusProps());
-              setSelectedTask({ ...task, ID: 0, STATUS: '' });
+              setSelectedTask({ ...selectedTask, ID: 0, STATUS: '' });
             }}
           />
         ) : (

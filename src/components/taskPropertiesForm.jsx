@@ -16,7 +16,6 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
       : null;
     return addOption ? [addOption, ...dlinePickerVal] : dlinePickerVal;
   };
-
   return (
     <div>
       <MyInput
