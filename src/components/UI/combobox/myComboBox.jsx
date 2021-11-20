@@ -1,25 +1,26 @@
 import React from 'react';
+import MyLabel from '../label/myLabel';
 import classes from './myComboBox.module.css';
 
-const MyComboBox = ({ options, placeholder, value, onChange }) => {
+const MyComboBox = ({ options, labeltext, value, onChange, ...props }) => {
   return (
-    <div>
+    <div className={classes.myComboBox}>
       <input
         type="text"
-        list={placeholder.replace(' ', '')}
+        list={labeltext.replace(' ', '')}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
         maxLength={30}
-        className={classes.myComboBox}
+        className={classes.myComboBox__input}
       />
-      <datalist id={placeholder.replace(' ', '')}>
+      <datalist id={labeltext.replace(' ', '')}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.value}
           </option>
         ))}
       </datalist>
+      <MyLabel htmlFor={classes.myComboBox__label} labeltext={labeltext} />
     </div>
   );
 };

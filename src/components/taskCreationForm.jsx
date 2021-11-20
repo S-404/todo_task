@@ -39,21 +39,21 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
       <MyInput
         value={task.TASK_NAME}
         type="text"
-        placeholder="New Task Name"
+        labeltext="New Task Name"
         onChange={(e) => setTask({ ...task, TASK_NAME: e.target.value })}
       />
       <MyComboBox
         options={uniqTaskGroups.map((x) => ({
           value: x,
         }))}
-        placeholder="Task Group"
+        labeltext="Task Group"
         value={task.TASK_GROUP}
         onChange={(value) => setTask({ ...task, TASK_GROUP: value })}
       />
       <MyTextArea
         value={task.TASK_DESCRIPTION}
         type="text"
-        placeholder="Description"
+        labeltext="Description"
         onChange={(e) => setTask({ ...task, TASK_DESCRIPTION: e.target.value })}
       />
       <MySelect

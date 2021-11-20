@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MyComboBox from './UI/combobox/myComboBox';
 import MyInput from './UI/input/myInput';
 import MyButton from './UI/button/myButton';
@@ -22,14 +22,14 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
       <MyInput
         value={task.TASK_NAME}
         type="text"
-        placeholder="New Task Name"
+        labeltext="Task Name"
         onChange={(e) => setTask({ ...task, TASK_NAME: e.target.value })}
       />
       <MyComboBox
         options={uniqTaskGroups.map((x) => ({
           value: x,
         }))}
-        placeholder="Task Group"
+        labeltext="Task Group"
         value={task.TASK_GROUP}
         onChange={(value) => setTask({ ...task, TASK_GROUP: value })}
       />
@@ -53,20 +53,19 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
       <MyTextArea
         value={task.TASK_DESCRIPTION}
         type="text"
-        placeholder="Description..."
+        labeltext="Description"
         onChange={(e) => setTask({ ...task, TASK_DESCRIPTION: e.target.value })}
       />
       <MyTextArea
         value={task.NOTE}
         type="text"
-        placeholder="Notes..."
+        labeltext="Notes"
         onChange={(e) => setTask({ ...task, NOTE: e.target.value })}
       />
-
       <div style={{ border: '1px solid', borderRadius: '5px' }}>
         Links:
         {task.taskLinks.map((link) => (
-          <div>
+          <div key={link.ID + 'link'}>
             <a href={link.TASK_LINK}>{link.LINK_DESCRIPTION ? link.LINK_DESCRIPTION : 'link'}</a>
             <StatusButton text={'edit✎'} />
             <StatusButton text={'copy📄'} />
@@ -74,7 +73,6 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
         ))}
         <StatusButton text={'add new link✚'} />
       </div>
-
       <MyButton onClick={() => updateTask(task)}>Update Task</MyButton>
       <MyButton onClick={() => removeTask(task)}>Remove Task</MyButton>
     </div>
