@@ -34,3 +34,8 @@
   align-items: center;
   height: 5vh;
 }
+
+.deadline-div {
+  display: flex;
+  flex-direction: row;
+}

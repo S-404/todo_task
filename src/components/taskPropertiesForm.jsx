@@ -32,23 +32,27 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
         value={task.TASK_GROUP}
         onChange={(value) => setTask({ ...task, TASK_GROUP: value })}
       />
-      <MySelect
-        value={defPeriodicity(task.PERIODICITY)}
-        options={periodicity}
-        defaultValue="Periodicity"
-        onChange={(selectedPeriodicity) => {
-          setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
-          setDlinePickerVal(periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr);
-        }}
-      />
-      <MySelect
-        value={task.DEADLINE}
-        options={dlineArr()}
-        defaultValue="Deadline"
-        onChange={(selectedDline) => {
-          setTask({ ...task, DEADLINE: selectedDline });
-        }}
-      />
+      <div className="deadline-div">
+        <MySelect
+          value={defPeriodicity(task.PERIODICITY)}
+          options={periodicity}
+          defaultValue="Periodicity"
+          onChange={(selectedPeriodicity) => {
+            setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
+            setDlinePickerVal(
+              periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr
+            );
+          }}
+        />
+        <MySelect
+          value={task.DEADLINE}
+          options={dlineArr()}
+          defaultValue="Deadline"
+          onChange={(selectedDline) => {
+            setTask({ ...task, DEADLINE: selectedDline });
+          }}
+        />
+      </div>
       <MyTextArea
         value={task.TASK_DESCRIPTION}
         type="text"

@@ -56,23 +56,27 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
         labeltext="Description"
         onChange={(e) => setTask({ ...task, TASK_DESCRIPTION: e.target.value })}
       />
-      <MySelect
-        value={defPeriodicity(task.PERIODICITY)}
-        options={periodicity}
-        defaultValue="Periodicity"
-        onChange={(selectedPeriodicity) => {
-          setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
-          setDlinePickerVal(periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr);
-        }}
-      />
-      <MySelect
-        value={task.DEADLINE}
-        options={dlinePickerVal}
-        defaultValue="Deadline"
-        onChange={(selectedDline) => {
-          setTask({ ...task, DEADLINE: selectedDline });
-        }}
-      />
+      <div className="deadline-div">
+        <MySelect
+          value={defPeriodicity(task.PERIODICITY)}
+          options={periodicity}
+          defaultValue="Periodicity"
+          onChange={(selectedPeriodicity) => {
+            setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
+            setDlinePickerVal(
+              periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr
+            );
+          }}
+        />
+        <MySelect
+          value={task.DEADLINE}
+          options={dlinePickerVal}
+          defaultValue="Deadline"
+          onChange={(selectedDline) => {
+            setTask({ ...task, DEADLINE: selectedDline });
+          }}
+        />
+      </div>
       <MyButton onClick={addNewTask}> Create Task </MyButton>
     </form>
   );
