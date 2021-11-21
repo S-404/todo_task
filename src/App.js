@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Query from './backend/query';
 import { useFetching } from './components/hooks/useFetching';
 import { useTaskGroups, useTasks } from './components/hooks/useTasks';
@@ -49,6 +49,7 @@ function App() {
     setUserGroups(response.data);
     if (!selectedUG) setSelectedUG(defaultUG(response.data));
   });
+  const defaultUG = useCallback((arr) => (arr.length ? arr[0].USERGROUP_ID : 0), [selectedUG]);
 
   const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
     const response = await Query.getData({
@@ -74,7 +75,6 @@ function App() {
     fetchTaskLinks();
   }, [selectedUG]);
 
-  const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
   const changetaskListValue = (taskID, fieldName, newValue) => {
     let tmpArr = taskList;
     if (tmpArr.length > 0) {
@@ -112,7 +112,7 @@ function App() {
         />
       </MyModal>
       <TaskFilter
-        defaultUGvalue={defaultUG(userGroups)}
+        selectedUG={selectedUG}
         setSelectedUG={setSelectedUG}
         userGroups={userGroups}
         filter={filter}

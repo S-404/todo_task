@@ -99,7 +99,9 @@ export function dLinePickerValues(periodicityValue) {
       }
       break;
     case '7':
-      wkdays.map((item, index) => ({ name: item, value: `${index}` }), dlineObj);
+      for (let wd = 0; wd < wkdays.length; wd++) {
+        dlineObj.push({ name: wkdays[wd], value: `${wd}` });
+      }
       break;
     case '30':
       for (let d = 1; d <= 31; d++) {
