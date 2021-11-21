@@ -6,6 +6,7 @@ import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
 import { dLinePickerValues, defPeriodicity, periodicity, dlinefromfloat } from '../utils/utils';
 import StatusButton from './UI/button/statusButton';
+import LinkPanel from './linkPanel';
 
 const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeTask }) => {
   const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues('1'));
@@ -65,14 +66,13 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
         labeltext="Notes"
         onChange={(e) => setTask({ ...task, NOTE: e.target.value })}
       />
-      <div style={{ border: '1px solid', borderRadius: '5px' }}>
-        Links:
+      <div
+        id="links-div"
+        className="links-div"
+        style={{ border: '1px solid', borderRadius: '5px' }}
+      >
         {task.taskLinks.map((link) => (
-          <div key={link.ID + 'link'}>
-            <a href={link.TASK_LINK}>{link.LINK_DESCRIPTION ? link.LINK_DESCRIPTION : 'link'}</a>
-            <StatusButton text={'edit✎'} />
-            <StatusButton text={'copy📄'} />
-          </div>
+          <LinkPanel key={link.ID + 'link'} link={link} />
         ))}
         <StatusButton text={'add new link✚'} />
       </div>
