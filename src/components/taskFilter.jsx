@@ -2,7 +2,7 @@ import React from 'react';
 import MySelect from './UI/select/mySelect';
 
 const TaskFilter = ({
-  defaultUGvalue,
+  selectedUG,
   setSelectedUG,
   userGroups,
   filter,
@@ -11,25 +11,18 @@ const TaskFilter = ({
 }) => {
   return (
     <div className="filter_container">
-      <div>
-        <select
-          defaultValue={defaultUGvalue}
-          onChange={(e) => {
-            if (e.target.value !== 0) {
-              setSelectedUG(e.target.value);
-            }
-          }}
-        >
-          {userGroups.map((row) => (
-            <option key={row.USERGROUP_ID} value={row.USERGROUP_ID}>
-              {row.USERGROUP_NAME}
-            </option>
-          ))}
-          <option key={userGroups.length + 1} value={0}>
-            + Create Group
-          </option>
-        </select>
-      </div>
+      <MySelect
+        value={selectedUG}
+        defaultValue="User Group"
+        onChange={(selectedUGValue) => setSelectedUG(selectedUGValue)}
+        options={userGroups
+          .map((group) => ({
+            value: group.USERGROUP_ID,
+            name: group.USERGROUP_NAME,
+          }))
+          .concat({ value: '0', name: '+ Create Group' })}
+      />
+
       <MySelect
         value={filter.taskGroup}
         defaultValue="task group"
