@@ -1,18 +1,22 @@
 import React from 'react';
+import MyLabel from '../label/myLabel';
 import classes from './mySelect.module.css';
 const MySelect = ({ options, defaultValue, value, onChange }) => {
   return (
-    <div>
-      <select className={classes.mySelect} value={value} onChange={(e) => onChange(e.target.value)}>
-        <option disabled value="">
-          {defaultValue}
-        </option>
+    <div className={classes.mySelect}>
+      <select
+        id={classes.mySelect}
+        className={classes.mySelect__select}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
         {options.map((option) => (
-          <option key={option.name} value={option.value}>
+          <option key={option.name + defaultValue} value={option.value}>
             {option.name}
           </option>
         ))}
       </select>
+      {defaultValue ? <MyLabel labeltext={defaultValue} htmlFor={classes.mySelect__select} /> : ''}
     </div>
   );
 };

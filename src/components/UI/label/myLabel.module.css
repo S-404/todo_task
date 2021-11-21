@@ -1,8 +1,8 @@
 .myLabel {
   position: absolute;
   left: 0px;
-  top: -15px;
-  overflow: hidden;
+  top: -12px;
   color: #999;
   white-space: nowrap;
+  font-size: small;
 }

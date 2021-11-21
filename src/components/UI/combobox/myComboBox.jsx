@@ -20,7 +20,7 @@ const MyComboBox = ({ options, labeltext, value, onChange, ...props }) => {
           </option>
         ))}
       </datalist>
-      <MyLabel htmlFor={classes.myComboBox__label} labeltext={labeltext} />
+      <MyLabel htmlFor={classes.myComboBox__input} labeltext={labeltext} />
     </div>
   );
 };
