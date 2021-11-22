@@ -10,10 +10,10 @@
 }
 
 .myModalContent {
-  padding: 40px;
+  padding: 30px;
   background: white;
   border-radius: 15px;
-  min-width: 250px;
+  min-width: 500px;
 }
 
 .myModal.active {

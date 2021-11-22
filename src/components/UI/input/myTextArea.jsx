@@ -10,7 +10,6 @@ const MyTextArea = React.forwardRef((props, ref) => {
         className={classes.myTextArea__input}
         {...props}
         rows="5"
-        cols="41"
       ></textarea>
 
       <MyLabel htmlFor={classes.myTextArea__input} labeltext={props.labeltext} />
