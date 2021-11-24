@@ -28,6 +28,11 @@
   border: solid 2px lightgray;
 }
 
+.loader-div{
+  display: flex;
+  justify-content: center;
+}
+
 .filter_container {
   display: flex;
   flex-direction: row;

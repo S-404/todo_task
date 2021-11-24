@@ -97,39 +97,41 @@ function App() {
         setModalTaskProp(false);
     };
 
-  return (
-    <div className="App">
-      <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
-        <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups} />
-      </MyModal>
-      <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
-        <TaskPropertiesForm
-          task={selectedTask}
-          setTask={setSelectedTask}
-          uniqTaskGroups={uniqTaskGroups}
-          updateTask={updateTask}
-          removeTask={removeTask}
-        />
-      </MyModal>
-      <TaskFilter
-        selectedUG={selectedUG}
-        setSelectedUG={setSelectedUG}
-        userGroups={userGroups}
-        filter={filter}
-        setFilter={setFilter}
-        uniqTaskGroups={uniqTaskGroups}
-      />
-      <button onClick={() => setModalNewTask(true)}>New Task</button>
-      <TaskList
-        taskList={sortedFilterdTasks}
-        user={user.userid}
-        selectedTask={selectedTask}
-        setSelectedTask={setSelectedTask}
-        changetaskListValue={changetaskListValue}
-        taskLinks={taskLinks}
-        setVisibleProp={setModalTaskProp}
-      />
-    </div>
-  );
+    return (
+        <div className="App">
+            <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
+                <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups}/>
+            </MyModal>
+            <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
+                <TaskPropertiesForm
+                    task={selectedTask}
+                    setTask={setSelectedTask}
+                    uniqTaskGroups={uniqTaskGroups}
+                    updateTask={updateTask}
+                    removeTask={removeTask}
+                />
+            </MyModal>
+            <TaskFilter
+                selectedUG={selectedUG}
+                setSelectedUG={setSelectedUG}
+                userGroups={userGroups}
+                filter={filter}
+                setFilter={setFilter}
+                uniqTaskGroups={uniqTaskGroups}
+            />
+            <button onClick={() => setModalNewTask(true)}>New Task</button>
+            <TaskList
+                taskList={sortedFilterdTasks}
+                user={user.userid}
+                selectedTask={selectedTask}
+                setSelectedTask={setSelectedTask}
+                changetaskListValue={changetaskListValue}
+                taskLinks={taskLinks}
+                setVisibleProp={setModalTaskProp}
+                isTaskListLoading={isTaskListLoading}
+                isUGDataLoading={isUGDataLoading}
+            />
+        </div>
+    );
 }
 export default App;
