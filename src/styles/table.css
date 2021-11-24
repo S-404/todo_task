@@ -1,130 +1,136 @@
 .task-list-table {
-  background: white;
-  border-collapse: collapse;
-  border: 1px solid gray;
-  width: 100%;
-  font-size: 13px;
-  table-layout: fixed;
+    background: white;
+    border-collapse: collapse;
+    border: 1px solid gray;
+    width: 100%;
+    font-size: 13px;
+    table-layout: fixed;
 }
 
 .task-list-table__thead {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .task-list-table__td {
-  border: 1px solid gray;
-  padding: 1px;
-  padding-left: 2px;
-  white-space: nowrap;
-  margin: 2px;
-  overflow: hidden;
-  height: 22px;
+    border: 1px solid gray;
+    padding: 1px;
+    padding-left: 2px;
+    white-space: nowrap;
+    margin: 2px;
+    overflow: hidden;
+    height: 22px;
 }
 
 .task-list-table__thead {
-  position: sticky;
-  top: -1px;
-  background-color: #5e5c6c;
-  color: white;
+    position: sticky;
+    top: -1px;
+    background-color: #5e5c6c;
+    color: white;
 }
 
 .task-list-table__tr {
-  cursor: pointer;
-  overflow-x: hidden;
+    cursor: pointer;
+    overflow-x: hidden;
 }
 
 .task-list-table__td_narrow,
 .task-list-table__th_narrow {
-  width: 80px;
-  text-align: center;
+    width: 80px;
+    text-align: center;
 }
 
 /*STATUSES*/
 
 .task-list-table__td-status {
-  color: #1e02bb00;
+    color: #1e02bb00;
 }
 
 .task-list-table__td-status_bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .task-list-table__tr_missed {
-  background-color: rgba(231, 75, 47, 0.673);
+    background-color: rgba(231, 75, 47, 0.673);
 }
 
 .task-list-table__tr_righttime {
-  background-color: rgba(169, 242, 243, 0.673);
+    background-color: rgba(169, 242, 243, 0.673);
 }
 
 .task-list-table__tr_done {
-  background-color: rgba(109, 230, 109, 0.673);
+    background-color: rgba(109, 230, 109, 0.673);
 }
 
 .task-list-table__tr_inprocess {
-  background-color: rgba(109, 139, 230, 0.673);
+    background-color: rgba(109, 139, 230, 0.673);
 }
 
 .task-list-table__tbody .task-list-table__tr:hover {
-  font-weight: bolder;
-  color: #1e02bb;
-  transition: color 0.5s ease-in;
+    font-weight: bolder;
+    color: #1e02bb;
+    transition: color 0.5s ease-in;
 }
 
 .task-list-table__task-name-div {
-  position: relative;
+    position: relative;
 }
 
 .task-name-div__task-option-buttons-div {
-  position: absolute;
-  top: 0px;
-  right: 5px;
-  width: 110px;
-  height: 16px;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-items: center;
-  justify-content: flex-start;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 110px;
+    height: 16px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-items: center;
+    justify-content: flex-start;
 }
 
 .task-option-buttons-div__task-option-button {
-  border: 0 solid gray;
-  border-radius: 5px;
-  width: 35px;
-  height: 15px;
-  cursor: pointer;
-  margin-right: 5px;
+    border: 0 solid gray;
+    border-radius: 5px;
+    width: 35px;
+    height: 15px;
+    cursor: pointer;
+    margin-right: 5px;
 }
 
 .task-option-buttons-div__task-option-button_properties {
-  background-color: rgb(230, 230, 230);
+    background-color: rgb(230, 230, 230);
 }
+
 .task-option-buttons-div__task-option-button_properties:hover {
-  background-color: rgb(194, 194, 194);
+    background-color: rgb(194, 194, 194);
 }
+
 .task-option-buttons-div__task-option-button_properties:active {
-  background-color: rgb(128, 128, 128);
+    background-color: rgb(128, 128, 128);
 }
 
 .task-option-buttons-div__task-option-button_note {
-  background-color: yellow;
-  color: red;
-  font-weight: bold;
-  cursor: help;
+    background-color: yellow;
+    color: red;
+    font-weight: bold;
+    cursor: help;
 }
+
 .task-option-buttons-div__task-option-button_note:hover {
-  background-color: rgb(226, 226, 0);
+    background-color: rgb(226, 226, 0);
 }
+
 .task-option-buttons-div__task-option-button_note:active {
-  background-color: rgba(206, 206, 0, 0.721);
+    background-color: rgba(206, 206, 0, 0.721);
 }
 
 .task-option-buttons-div__task-option-button_link {
-  background-color: lightskyblue;
+    background-color: lightskyblue;
 }
+
 .task-option-buttons-div__task-option-button_link:hover {
-  background-color: rgba(135, 206, 250, 0.83);
+    background-color: rgba(135, 206, 250, 0.83);
 }
+
 .task-option-buttons-div__task-option-button_link:active {
-  background-color: rgba(72, 165, 223, 0.952);
+    background-color: rgba(72, 165, 223, 0.952);
 }

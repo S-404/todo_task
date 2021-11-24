@@ -1,77 +1,81 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --border-radius-val: 5px;
+    --border-radius-val: 5px;
 }
+
 #root {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden;
-  background: rgba(186, 186, 186, 0.557);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    background: rgba(186, 186, 186, 0.557);
 }
+
 .App {
-  width: 600px;
+    width: 600px;
 }
 
 .task-list-container {
-  background-color: whitesmoke;
-  height: 88vh;
-  overflow-y: scroll;
-  border-radius: var(--border-radius-val);
-  border: solid 2px lightgray;
+    background-color: whitesmoke;
+    height: 88vh;
+    overflow-y: scroll;
+    border-radius: var(--border-radius-val);
+    border: solid 2px lightgray;
 }
 
-.loader-div{
-  display: flex;
-  justify-content: center;
+.loader-div {
+    display: flex;
+    justify-content: center;
 }
 
 .filter_container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.809);
-  border-radius: 15px;
-  border: 2px solid lightgray;
-  padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.809);
+    border-radius: 15px;
+    border: 2px solid lightgray;
+    padding: 10px 10px 0 10px;
 }
 
 .deadline-div {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .links-div {
-  position: relative;
-  overflow-y: scroll;
-  max-height: 60px;
+    position: relative;
+    overflow-y: scroll;
+    max-height: 60px;
 }
 
 .link-panel {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  justify-items: center;
-  border: 1px solid lightgray;
-  margin-bottom: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    border: 1px solid lightgray;
+    margin-bottom: 2px;
 }
+
 .link-panel__ahref {
-  font-size: small;
-  text-align: center;
-  flex: 2;
+    font-size: small;
+    text-align: center;
+    flex: 2;
 }
+
 .link-panel__buttons-div {
-  display: flex;
-  flex: 2;
-  flex-direction: row;
-  justify-items: center;
-  justify-content: center;
+    display: flex;
+    flex: 2;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: center;
 }

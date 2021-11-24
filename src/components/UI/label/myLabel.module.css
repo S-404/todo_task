@@ -1,8 +1,8 @@
 .myLabel {
-  position: absolute;
-  left: 0px;
-  top: -12px;
-  color: #999;
-  white-space: nowrap;
-  font-size: small;
+    position: absolute;
+    left: 0;
+    top: -12px;
+    color: #999;
+    white-space: nowrap;
+    font-size: small;
 }
