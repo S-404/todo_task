@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Query from './backend/query';
 import { useFetching } from './components/hooks/useFetching';
 import { useTaskGroups, useTasks } from './components/hooks/useTasks';
@@ -49,7 +49,7 @@ function App() {
     setUserGroups(response.data);
     if (!selectedUG) setSelectedUG(defaultUG(response.data));
   });
-  const defaultUG = useCallback((arr) => (arr.length ? arr[0].USERGROUP_ID : 0), [selectedUG]);
+  const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
 
   const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
     const response = await Query.getData({
@@ -75,27 +75,27 @@ function App() {
     fetchTaskLinks();
   }, [selectedUG]);
 
-  const changetaskListValue = (taskID, fieldName, newValue) => {
-    let tmpArr = taskList;
-    if (tmpArr.length > 0) {
-      tmpArr.filter((task) => task.ID === taskID)[0][fieldName] = newValue;
-      tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] = Date.now();
-      tmpArr.filter((task) => task.ID === taskID)[0]['USERID'] = user.userid;
-    }
-    setTaskList(tmpArr);
-  };
-  const createTask = (taskObj) => {
-    setTaskList([...taskList, taskObj]);
-    setModalNewTask(false);
-  };
-  const updateTask = (taskObj) => {
-    setTaskList([...taskList.filter((x) => x.ID !== taskObj.ID), taskObj]);
-    setModalTaskProp(false);
-  };
-  const removeTask = (taskObj) => {
-    setTaskList(taskList.filter((x) => x.ID !== taskObj.ID));
-    setModalTaskProp(false);
-  };
+    const changetaskListValue = (taskID, fieldName, newValue) => {
+        let tmpArr = Object.assign(taskList);
+        if (tmpArr.length > 0) {
+            tmpArr.filter((task) => task.ID === taskID)[0][fieldName] = newValue;
+            tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] = Date.now();
+            tmpArr.filter((task) => task.ID === taskID)[0]['USERID'] = user.userid;
+        }
+        setTaskList(tmpArr);
+    };
+    const createTask = (taskObj) => {
+        setTaskList([...taskList, taskObj]);
+        setModalNewTask(false);
+    };
+    const updateTask = (taskObj) => {
+        setTaskList([...taskList.filter((x) => x.ID !== taskObj.ID), taskObj]);
+        setModalTaskProp(false);
+    };
+    const removeTask = (taskObj) => {
+        setTaskList(taskList.filter((x) => x.ID !== taskObj.ID));
+        setModalTaskProp(false);
+    };
 
   return (
     <div className="App">

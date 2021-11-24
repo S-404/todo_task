@@ -22,7 +22,7 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
       d.setMinutes(+dlineValue);
       return `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}`;
     case 7:
-      return wkdays[+dlineValue - 1];
+      return wkdays[+dlineValue];
     case 30:
       return (+dlineValue).toFixed(0);
     default:
@@ -87,7 +87,7 @@ export const getStatus = (periodicity, started, finished) => {
   }
 };
 
-export function dLinePickerValues(periodicityValue) {
+function dLinePickerValues(periodicityValue) {
   const dlineObj = [];
   switch (+periodicityValue) {
     case 1:
