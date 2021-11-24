@@ -4,27 +4,30 @@ const firstDayOfMonth = (date) => date.setDate(1);
 
 export const wkdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+const dailyDlineValues = dLinePickerValues('1');
+const weeklyDlineValues = dLinePickerValues('7');
+const monthlyDlineValues = dLinePickerValues('30');
+
+export const periodicity = [
+  { name: 'Daily', value: '1', dlineArr: dailyDlineValues },
+  { name: 'Weekly', value: '7', dlineArr: weeklyDlineValues },
+  { name: 'Monthly', value: '30', dlineArr: monthlyDlineValues },
+];
+
 export const dlinefromfloat = (dlineValue, periodicity) => {
   switch (+periodicity) {
     case 1:
       let d = new Date();
       d.setHours(0);
-      d.setMinutes(24 * dlineValue * 60);
+      d.setMinutes(+dlineValue);
       return `${pad(d.getHours(), 2)}:${pad(d.getMinutes(), 2)}`;
     case 7:
-      return wkdays[dlineValue - 1];
+      return wkdays[+dlineValue - 1];
     case 30:
       return (+dlineValue).toFixed(0);
     default:
       return '00:00';
   }
-};
-
-export const dlineToFloat = (hh, mm) => {
-  let gotMinutes = hh * 60 + mm;
-  let dayTotalMinutes = 24 * 60;
-  let result = gotMinutes / dayTotalMinutes;
-  return Math.round(result * 10000) / 10000;
 };
 
 export const checkDLine = (dlineValue, periodicity, status) => {
@@ -38,8 +41,7 @@ export const checkDLine = (dlineValue, periodicity, status) => {
   switch (+periodicity) {
     case 1:
       d.setHours(0);
-      d.setMinutes(24 * dlineValue * 60);
-
+      d.setMinutes(dlineValue);
       let checktime = (Date.now() - d) / 1000 / 60; //minutesdiff
       if (checktime > 0) result = 'missed';
       else if (checktime > -60) result = 'righttime';
@@ -87,23 +89,23 @@ export const getStatus = (periodicity, started, finished) => {
 
 export function dLinePickerValues(periodicityValue) {
   const dlineObj = [];
-  switch (periodicityValue) {
-    case '1':
+  switch (+periodicityValue) {
+    case 1:
       for (let hh = 0; hh <= 23; hh++) {
         for (let mm = 0; mm <= 59; mm += 15) {
           dlineObj.push({
             name: `${pad(hh, 2)}:${pad(mm, 2)}`,
-            value: `${dlineToFloat(hh, mm)}`,
+            value: `${hh * 60 + mm}`,
           });
         }
       }
       break;
-    case '7':
+    case 7:
       for (let wd = 0; wd < wkdays.length; wd++) {
         dlineObj.push({ name: wkdays[wd], value: `${wd}` });
       }
       break;
-    case '30':
+    case 30:
       for (let d = 1; d <= 31; d++) {
         dlineObj.push({ name: d, value: `${d}` });
       }
@@ -115,12 +117,15 @@ export function dLinePickerValues(periodicityValue) {
   return dlineObj;
 }
 
-export function defPeriodicity(val) {
-  return periodicity.filter((x) => x.value === val).name;
-}
-
-export const periodicity = [
-  { name: 'Daily', value: '1', dlineArr: dLinePickerValues('1') },
-  { name: 'Weekly', value: '7', dlineArr: dLinePickerValues('7') },
-  { name: 'Monthly', value: '30', dlineArr: dLinePickerValues('30') },
-];
+export const dlineOptions = (task, periodicity) => {
+  let valuesArr = periodicity.filter(
+    (x) => x.value === (task.PERIODICITY ? task.PERIODICITY : '1')
+  )[0].dlineArr;
+  let addOption = !valuesArr.filter((x) => x.value === task.DEADLINE).length
+    ? {
+        name: `${dlinefromfloat(task.DEADLINE, task.PERIODICITY)} `,
+        value: task.DEADLINE,
+      }
+    : null;
+  return addOption ? [addOption, ...valuesArr] : valuesArr;
+};

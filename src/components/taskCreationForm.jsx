@@ -4,18 +4,17 @@ import MyInput from './UI/input/myInput';
 import MyButton from './UI/button/myButton';
 import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
-import { dLinePickerValues, defPeriodicity, periodicity } from '../utils/utils';
+import { periodicity, dlineOptions } from '../utils/utils';
 
 const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
-  const [task, setTask] = useState({
+  let defaultTask = {
     TASK_NAME: 'New Task Name',
     PERIODICITY: '1',
-    DEADLINE: '1',
+    DEADLINE: '0',
     TASK_GROUP: '',
     TASK_DESCRIPTION: '',
-  });
-
-  const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues('1'));
+  };
+  const [task, setTask] = useState(defaultTask);
 
   const addNewTask = (e) => {
     e.preventDefault();
@@ -25,13 +24,7 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
       TASK_GROUP: task.TASK_GROUP === '' ? 'New Tasks' : task.TASK_GROUP,
     };
     createTask(newTask);
-    setTask({
-      TASK_NAME: 'New Task Name',
-      PERIODICITY: '1',
-      DEADLINE: '1',
-      TASK_GROUP: '',
-      TASK_DESCRIPTION: '',
-    });
+    setTask(defaultTask);
   };
 
   return (
@@ -58,19 +51,21 @@ const TaskCreationForm = ({ createTask, uniqTaskGroups }) => {
       />
       <div className="deadline-div">
         <MySelect
-          value={defPeriodicity(task.PERIODICITY)}
+          value={task.PERIODICITY}
           options={periodicity}
           defaultValue="Periodicity"
           onChange={(selectedPeriodicity) => {
-            setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
-            setDlinePickerVal(
-              periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr
-            );
+            setTask({
+              ...task,
+              PERIODICITY: selectedPeriodicity,
+              DEADLINE: periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr[0]
+                .value,
+            });
           }}
         />
         <MySelect
           value={task.DEADLINE}
-          options={dlinePickerVal}
+          options={dlineOptions(task, periodicity)}
           defaultValue="Deadline"
           onChange={(selectedDline) => {
             setTask({ ...task, DEADLINE: selectedDline });

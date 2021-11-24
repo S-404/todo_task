@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MyComboBox from './UI/combobox/myComboBox';
 import MyInput from './UI/input/myInput';
 import MyButton from './UI/button/myButton';
 import MyTextArea from './UI/input/myTextArea';
 import MySelect from './UI/select/mySelect';
-import { dLinePickerValues, defPeriodicity, periodicity, dlinefromfloat } from '../utils/utils';
+import { periodicity, dlineOptions } from '../utils/utils';
 import StatusButton from './UI/button/statusButton';
 import LinkPanel from './linkPanel';
 
 const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeTask }) => {
-  const [dlinePickerVal, setDlinePickerVal] = useState(dLinePickerValues('1'));
-
-  const dlineArr = () => {
-    let addOption = !dlinePickerVal.filter((x) => x.value === task.DEADLINE).length
-      ? { name: `${dlinefromfloat(task.DEADLINE, task.PERIODICITY)} `, value: task.DEADLINE }
-      : null;
-    return addOption ? [addOption, ...dlinePickerVal] : dlinePickerVal;
-  };
   return (
     <div>
       <MyInput
@@ -35,19 +27,21 @@ const TaskPropertiesForm = ({ task, setTask, uniqTaskGroups, updateTask, removeT
       />
       <div className="deadline-div">
         <MySelect
-          value={defPeriodicity(task.PERIODICITY)}
+          value={task.PERIODICITY}
           options={periodicity}
           defaultValue="Periodicity"
           onChange={(selectedPeriodicity) => {
-            setTask({ ...task, PERIODICITY: selectedPeriodicity, DEADLINE: '1' });
-            setDlinePickerVal(
-              periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr
-            );
+            setTask({
+              ...task,
+              PERIODICITY: selectedPeriodicity,
+              DEADLINE: periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr[0]
+                .value,
+            });
           }}
         />
         <MySelect
           value={task.DEADLINE}
-          options={dlineArr()}
+          options={dlineOptions(task, periodicity)}
           defaultValue="Deadline"
           onChange={(selectedDline) => {
             setTask({ ...task, DEADLINE: selectedDline });

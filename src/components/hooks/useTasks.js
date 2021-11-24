@@ -4,7 +4,8 @@ import { getStatus } from '../../utils/utils.js';
 export const useSortedTasks = (tasks, sort, changedStatus) => {
   const sortedTasks = useMemo(() => {
     if (sort) {
-      return [...tasks].sort((a, b) => a[sort].localeCompare(b[sort]));
+      // return [...tasks].sort((a, b) => a[sort].localeCompare(b[sort]));
+      return [...tasks].sort((a, b) => a[sort] - b[sort]);
     }
     return tasks;
   }, [sort, tasks, changedStatus]);
