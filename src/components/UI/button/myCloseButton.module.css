@@ -1,0 +1,19 @@
+.myCloseButton {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    opacity: 0.3;
+    font-size: 20px;
+    font-weight: bold;
+    display: none;
+}
+.myCloseButton:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+@media (max-width: 510px) {
+    .myCloseButton {
+        display: block;
+    }
+}
