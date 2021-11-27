@@ -3,12 +3,12 @@ import axios from 'axios';
 export default class Query {
     static async getData({...param}) {
         const response = await axios.get(
-            'http://localhost/react_klockis_backend/readData_GET.php',
+            `http://localhost:5000/KLOCKIS/${param.query}`,
             {
                 params: param,
             }
-        );
-        return response;
+        )
+        return response.data;
     }
 
     static async updData({...param}) {

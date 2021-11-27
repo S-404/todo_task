@@ -33,9 +33,9 @@ const TaskPropertiesForm = ({task, setTask, uniqTaskGroups, updateTask, removeTa
                     onChange={(selectedPeriodicity) => {
                         setTask({
                             ...task,
-                            PERIODICITY: selectedPeriodicity,
-                            DEADLINE: periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr[0]
-                                .value,
+                            PERIODICITY: +selectedPeriodicity,
+                            DEADLINE: periodicity.filter(
+                                (x) => x.value === +selectedPeriodicity)[0].dlineArr[0].value,
                         });
                     }}
                 />

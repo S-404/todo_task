@@ -9,9 +9,9 @@ import {periodicity, dlineOptions} from '../utils/utils';
 const TaskCreationForm = ({createTask, uniqTaskGroups}) => {
     let defaultTask = {
         TASK_NAME: 'New Task Name',
-        PERIODICITY: '1',
-        DEADLINE: '0',
-        TASK_GROUP: '',
+        PERIODICITY: 1,
+        DEADLINE: 0,
+        TASK_GROUP: 0,
         TASK_DESCRIPTION: '',
     };
     const [task, setTask] = useState(defaultTask);
@@ -57,8 +57,8 @@ const TaskCreationForm = ({createTask, uniqTaskGroups}) => {
                     onChange={(selectedPeriodicity) => {
                         setTask({
                             ...task,
-                            PERIODICITY: selectedPeriodicity,
-                            DEADLINE: periodicity.filter((x) => x.value === selectedPeriodicity)[0].dlineArr[0]
+                            PERIODICITY: +selectedPeriodicity,
+                            DEADLINE: periodicity.filter((x) => x.value === +selectedPeriodicity)[0].dlineArr[0]
                                 .value,
                         });
                     }}

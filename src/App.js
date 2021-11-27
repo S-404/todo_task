@@ -34,7 +34,7 @@ function App() {
     });
     const [filter, setFilter] = useState({
         sort: 'DEADLINE',
-        taskGroup: '',
+        taskGroup: 0,
         status: '',
     });
     const uniqTaskGroups = useTaskGroups(taskList);
@@ -44,31 +44,31 @@ function App() {
 
 
     const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(async () => {
-        const response = await Query.getData({
+        const responseData = await Query.getData({
             query: 'USERGROUPS',
             userid: user.userid,
         });
-        setUserGroups(response.data);
-        if (!selectedUG) setSelectedUG(defaultUG(response.data));
+        setUserGroups(responseData);
+        if (!selectedUG) setSelectedUG(defaultUG(responseData));
     });
     const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
 
     const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
-        const response = await Query.getData({
+        const responseData = await Query.getData({
             query: 'TASK_LIST',
             userid: user.userid,
             selUG: selectedUG,
         });
-        setTaskList(response.data);
+        setTaskList( responseData );
     });
 
     const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(async () => {
-        const response = await Query.getData({
+        const responseData = await Query.getData({
             query: 'TASK_LINKS',
             userid: user.userid,
             selUG: selectedUG,
         });
-        setTaskLinks(response.data);
+        setTaskLinks(responseData);
     });
 
     useEffect(async () => fetchUGData(), []);

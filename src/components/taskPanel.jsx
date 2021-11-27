@@ -54,7 +54,7 @@ const TaskPanel = ({
 
     const getNewSelectedTaskData = () => {
         const linksArr = taskLinks.filter((taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID);
-        const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] === '1');
+        const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] === true);
 
         return {
             ...selectedTask,
