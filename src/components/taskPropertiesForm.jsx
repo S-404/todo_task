@@ -8,7 +8,15 @@ import {periodicity, dlineOptions} from '../utils/utils';
 import StatusButton from './UI/button/statusButton';
 import LinkPanel from './linkPanel';
 
-const TaskPropertiesForm = ({task, setTask, uniqTaskGroups, updateTask, removeTask}) => {
+const TaskPropertiesForm = ({
+                                task,
+                                setTask,
+                                uniqTaskGroups,
+                                updateTask,
+                                removeTask,
+                                setModalLinkProp,
+                                setSelectedLinkID,
+                                setModalNewLink}) => {
     return (
         <div>
             <MyInput
@@ -66,9 +74,16 @@ const TaskPropertiesForm = ({task, setTask, uniqTaskGroups, updateTask, removeTa
                 style={{border: '1px solid', borderRadius: '5px'}}
             >
                 {task.taskLinks.map((link) => (
-                    <LinkPanel key={link.ID + 'link'} link={link}/>
+                    link.TASK_LINK ?
+                        <LinkPanel
+                            setModalLinkProp={setModalLinkProp}
+                            setSelectedLinkID={setSelectedLinkID}
+                            key={link.ID + 'link'}
+                            link={link}
+                        /> :
+                        null
                 ))}
-                <StatusButton text={'add new link✚'}/>
+                <StatusButton onClick={()=> setModalNewLink(true)} text={'add new link✚'}/>
             </div>
             <MyButton onClick={() => updateTask(task)}>Update Task</MyButton>
             <MyButton onClick={() => removeTask(task)}>Remove Task</MyButton>

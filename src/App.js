@@ -9,6 +9,8 @@ import './styles/app.css';
 import MyModal from './components/UI/modal/myModal';
 import TaskPropertiesForm from './components/taskPropertiesForm';
 import TaskCreationForm from './components/taskCreationForm';
+import LinkPropertiesForm from "./components/linkPropertiesForm";
+import LinkCreationForm from "./components/linkCreationForm";
 
 
 function App() {
@@ -17,7 +19,14 @@ function App() {
     const [selectedUG, setSelectedUG] = useState(0);
     const [userGroups, setUserGroups] = useState([]);
     const [taskList, setTaskList] = useState([]);
-    const [taskLinks, setTaskLinks] = useState([]);
+    const [taskLinks, setTaskLinks] = useState([{
+        ID: 0
+        , USERGROUP_ID: 0
+        , TASK_ID: 0
+        , TASK_LINK: ''
+        , ISMAIN: false
+        , LINK_DESCRIPTION: ''
+    }]);
     const [selectedTask, setSelectedTask] = useState({
         ID: 0,
         TASK_NAME: '',
@@ -30,8 +39,9 @@ function App() {
         LAST_CHANGE: 0,
         NOTE: '',
         taskMainLink: '',
-        taskLinks: [{TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: ''}],
+        taskLinks: [{TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: '', ID: 0}],
     });
+    const [selectedLinkID, setSelectedLinkID] = useState(0);
     const [filter, setFilter] = useState({
         sort: 'DEADLINE',
         taskGroup: 0,
@@ -41,6 +51,8 @@ function App() {
     const sortedFilterdTasks = useTasks(taskList, filter.sort, filter.taskGroup, filter.status);
     const [modalNewTask, setModalNewTask] = useState(false);
     const [modalTaskProp, setModalTaskProp] = useState(false);
+    const [modalNewLink, setModalNewLink] = useState(false);
+    const [modalLinkProp, setModalLinkProp] = useState(false);
 
 
     const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(async () => {
@@ -99,6 +111,24 @@ function App() {
         setModalTaskProp(false);
     };
 
+    const createLink = (linkObj) => {
+        setSelectedTask({...selectedTask, taskLinks: [...selectedTask.taskLinks,linkObj] })
+        setTaskLinks([...taskLinks, linkObj])
+        setModalNewLink(false)
+    };
+    const updateLink = (linkObj) => {
+        let newTaskLinksObj = [...selectedTask.taskLinks.filter((x) => x.ID !== linkObj.ID), linkObj]
+        setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
+        setTaskLinks([...taskLinks.filter((x) => x.ID !== linkObj.ID), linkObj]);
+        setModalLinkProp(false)
+    };
+    const removeLink = (linkObj) => {
+        let newTaskLinksObj = [...selectedTask.taskLinks.filter((x) => x.ID !== linkObj.ID)]
+        setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
+        setTaskLinks(taskLinks.filter((x) => x.ID !== linkObj.ID));
+        setModalLinkProp(false)
+    };
+
     return (
         <div className="App">
             <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
@@ -111,6 +141,24 @@ function App() {
                     uniqTaskGroups={uniqTaskGroups}
                     updateTask={updateTask}
                     removeTask={removeTask}
+                    setModalLinkProp={setModalLinkProp}
+                    setModalNewLink={setModalNewLink}
+                    setSelectedLinkID={setSelectedLinkID}
+                />
+            </MyModal>
+            <MyModal visible={modalLinkProp} setVisible={setModalLinkProp}>
+                <LinkPropertiesForm
+                    selectedTask={selectedTask}
+                    selectedLinkID={selectedLinkID}
+                    updateLink={updateLink}
+                    removeLink={removeLink}
+                />
+            </MyModal>
+            <MyModal visible={modalNewLink} setVisible={setModalNewLink}>
+                <LinkCreationForm
+                    selectedTask={selectedTask}
+                    selectedUG={selectedUG}
+                    createLink={createLink}
                 />
             </MyModal>
             <TaskFilter

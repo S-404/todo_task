@@ -71,7 +71,7 @@ const TaskPanel = ({
             taskMainLink: mainLink.length > 0 ? mainLink[0]['TASK_LINK'] : '',
             taskLinks: linksArr.length
                 ? [...linksArr]
-                : [{TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: ''}],
+                : [{TASK_LINK: '', MAIN_TASK_LINK: 0, LINK_DESCRIPTION: '', ID:0}],
         };
     };
 
@@ -101,7 +101,7 @@ const TaskPanel = ({
                                 ...
                             </button>
                             {selectedTask.taskMainLink ? (
-                                <button
+                                <button onClick={() => {navigator.clipboard.writeText(selectedTask.taskMainLink )}}
                                     className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_link">
                                     link
                                 </button>
