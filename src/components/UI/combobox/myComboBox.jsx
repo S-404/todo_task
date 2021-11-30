@@ -7,13 +7,13 @@ const MyComboBox = ({options, labeltext, value, onChange}) => {
         <div className={classes.myComboBox}>
             <input
                 type="text"
-                list={labeltext.replace(' ', '')}
+                list={labeltext.split(' ').join('')}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 maxLength={30}
                 className={classes.myComboBox__input}
             />
-            <datalist id={labeltext.replace(' ', '')}>
+            <datalist id={labeltext.split(' ').join('')}>
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>
                         {option.value}

@@ -11,7 +11,7 @@ const TaskCreationForm = ({createTask, uniqTaskGroups}) => {
         TASK_NAME: 'New Task Name',
         PERIODICITY: 1,
         DEADLINE: 0,
-        TASK_GROUP: 0,
+        TASK_GROUP: '',
         TASK_DESCRIPTION: '',
     };
     const [task, setTask] = useState(defaultTask);
