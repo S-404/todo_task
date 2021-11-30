@@ -1,0 +1,49 @@
+
+:root {
+    --loader-size: 20px;
+}
+
+.loader {
+    width: var(--loader-size);
+}
+
+.sh1 {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: var(--loader-size) var(--loader-size) 0 0;
+    border-color: #3c759a transparent transparent transparent;
+    margin: 0 auto;
+    animation: shk1 1.5s ease-in-out infinite alternate;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.sh2 {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 var(--loader-size) var(--loader-size);
+    border-color: transparent transparent #08b7c7 transparent;
+    margin: calc(var(--loader-size) * -1) auto 0;
+    animation: shk1 1.5s ease-in-out infinite normal;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.disabled {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+@keyframes shk1 {
+    0% {
+        transform: rotate(-360deg);
+    }
+
+    100% {
+    }
+}
+
+
+

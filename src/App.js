@@ -11,6 +11,8 @@ import TaskPropertiesForm from './components/taskPropertiesForm';
 import TaskCreationForm from './components/taskCreationForm';
 import LinkPropertiesForm from "./components/linkPropertiesForm";
 import LinkCreationForm from "./components/linkCreationForm";
+import LoaderSmall from "./components/UI/loader/loaderSmall";
+import StatusButton from "./components/UI/button/statusButton";
 
 
 function App() {
