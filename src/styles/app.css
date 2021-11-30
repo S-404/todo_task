@@ -20,6 +20,10 @@
 
 .App {
     width: 600px;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .task-list-container {
@@ -28,6 +32,7 @@
     overflow-y: scroll;
     border-radius: var(--border-radius-val);
     border: solid 2px lightgray;
+    margin-top: 5px;
 }
 
 .loader-div {
@@ -35,15 +40,19 @@
     justify-content: center;
 }
 
-.filter_container {
+.nav-panel {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 60px;
+    flex-direction: column;
     background-color: rgba(255, 255, 255, 0.809);
     border-radius: 15px;
     border: 2px solid lightgray;
-    padding: 10px 10px 0 10px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.ui_container {
+    display: flex;
+    flex-direction: row;
 }
 
 .deadline-div {

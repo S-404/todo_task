@@ -10,10 +10,10 @@ const TaskFilter = ({
                         uniqTaskGroups,
                     }) => {
     return (
-        <div className="filter_container">
+        <div className='ui_container'>
             <MySelect
                 value={selectedUG}
-                defaultValue="User Group"
+                defaultValue="user group"
                 onChange={(selectedUGValue) => setSelectedUG(selectedUGValue)}
                 options={userGroups
                     .map((group) => ({

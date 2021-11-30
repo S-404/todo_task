@@ -10,14 +10,13 @@ const TaskList = ({
                       changetaskListValue,
                       taskLinks,
                       setVisibleProp,
-                      isTaskListLoading,
                       isUGDataLoading
                   }) => {
     const [statusView, setStatusView] = useState('');
 
     return (
         <div className="task-list-container">
-            {(isTaskListLoading || isUGDataLoading) ? <div className='loader-div'><MyLoader/></div> :
+            {( isUGDataLoading) ? <div className='loader-div'><MyLoader/></div> :
                 <table className="task-list-table">
                     <thead className="task-list-table__thead">
                     <tr className="task-list-table__tr">

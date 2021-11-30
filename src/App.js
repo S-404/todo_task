@@ -163,6 +163,8 @@ function App() {
                     createLink={createLink}
                 />
             </MyModal>
+            <div className='nav-panel'>
+
             <TaskFilter
                 selectedUG={selectedUG}
                 setSelectedUG={setSelectedUG}
@@ -171,7 +173,13 @@ function App() {
                 setFilter={setFilter}
                 uniqTaskGroups={uniqTaskGroups}
             />
-            <button onClick={() => setModalNewTask(true)}>New Task</button>
+                <div className="ui_container">
+                <StatusButton text='Manage Group'/>
+                <StatusButton onClick={() => setModalNewTask(true)} text='New Task'/>
+                <StatusButton text='Manual Refresh' onClick={()=> fetchTaskList()}/>
+                <LoaderSmall isLoading={isTaskListLoading}/>
+            </div>
+            </div>
             <TaskList
                 taskList={sortedFilterdTasks}
                 user={user.userid}
@@ -180,7 +188,6 @@ function App() {
                 changetaskListValue={changetaskListValue}
                 taskLinks={taskLinks}
                 setVisibleProp={setModalTaskProp}
-                isTaskListLoading={isTaskListLoading}
                 isUGDataLoading={isUGDataLoading}
             />
         </div>
