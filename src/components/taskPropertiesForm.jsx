@@ -60,18 +60,19 @@ const TaskPropertiesForm = ({
                 value={task.TASK_DESCRIPTION}
                 type="text"
                 labeltext="Description"
+                rows={task.TASK_DESCRIPTION? 5: 1}
                 onChange={(e) => setTask({...task, TASK_DESCRIPTION: e.target.value})}
             />
             <MyTextArea
                 value={task.NOTE}
                 type="text"
                 labeltext="Notes"
+                rows={task.NOTE? 5: 1}
                 onChange={(e) => setTask({...task, NOTE: e.target.value})}
             />
             <div
                 id="links-div"
                 className="links-div"
-                style={{border: '1px solid', borderRadius: '5px'}}
             >
                 {task.taskLinks.map((link) => (
                     link.TASK_LINK ?

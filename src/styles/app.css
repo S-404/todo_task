@@ -2,6 +2,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-width: thin; /*mozilla scrollbar*/
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: #f0f0f0;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #cdcdcd;
 }
 
 :root {
@@ -28,7 +39,6 @@
 
 .task-list-container {
     background-color: whitesmoke;
-    height: 88vh;
     overflow-y: scroll;
     border-radius: var(--border-radius-val);
     border: solid 2px lightgray;
@@ -63,7 +73,10 @@
 .links-div {
     position: relative;
     overflow-y: scroll;
-    max-height: 60px;
+    max-height: 110px;
+    border: 2px solid;
+    border-color: #979797 #e6e6e6 #fefefe #9b99a3;
+    border-radius: var(--border-radius-val);
 }
 
 .link-panel {
@@ -71,8 +84,6 @@
     flex-direction: row;
     justify-content: center;
     justify-items: center;
-    border: 1px solid lightgray;
-    margin-bottom: 2px;
 }
 
 .link-panel__ahref {
@@ -83,8 +94,14 @@
 
 .link-panel__buttons-div {
     display: flex;
-    flex: 2;
+    flex: 1;
     flex-direction: row;
     justify-items: center;
     justify-content: center;
+}
+
+@media (max-width: 510px) {
+    * {
+        font-size: 18px;
+    }
 }

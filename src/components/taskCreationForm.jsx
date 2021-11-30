@@ -47,6 +47,7 @@ const TaskCreationForm = ({createTask, uniqTaskGroups}) => {
                 value={task.TASK_DESCRIPTION}
                 type="text"
                 labeltext="Description"
+                rows={task.TASK_DESCRIPTION? 5: 1}
                 onChange={(e) => setTask({...task, TASK_DESCRIPTION: e.target.value})}
             />
             <div className="deadline-div">
