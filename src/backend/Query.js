@@ -8,7 +8,7 @@ export default class Query {
                 params: param,
             }
         )
-        return response.data;
+        return response.data?.recordset;
     }
 
     static async updData({...param}) {

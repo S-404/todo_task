@@ -31,7 +31,7 @@ export const dlinefromfloat = (dlineValue, periodicity) => {
 };
 
 export const checkDLine = (dlineValue, periodicity, status) => {
-    let checkstatus = status === null ? '' : status.replace(' ', '');
+    let checkstatus = status === null ? '' : status.split(' ').join('');
     //task is done/in process
     if (checkstatus !== 'todo') return checkstatus;
 

@@ -73,14 +73,14 @@ function App() {
             userid: user.userid,
             selUG: selectedUG,
         });
-        setTaskList( responseData );
+        setTaskList(responseData);
     });
 
     const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(async () => {
         const responseData = await Query.getData({
             query: 'TASK_LINKS',
             userid: user.userid,
-            selUG: selectedUG,
+            selUG: +selectedUG,
         });
         setTaskLinks(responseData);
     });
@@ -114,7 +114,7 @@ function App() {
     };
 
     const createLink = (linkObj) => {
-        setSelectedTask({...selectedTask, taskLinks: [...selectedTask.taskLinks,linkObj] })
+        setSelectedTask({...selectedTask, taskLinks: [...selectedTask.taskLinks, linkObj]})
         setTaskLinks([...taskLinks, linkObj])
         setModalNewLink(false)
     };

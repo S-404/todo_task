@@ -14,3 +14,11 @@
 .statusButton:active {
     background-color: rgb(128, 128, 128);
 }
+
+
+
+@media (max-width: 510px) {
+    .statusButton {
+        height: 34px;
+    }
+}

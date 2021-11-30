@@ -12,7 +12,7 @@ const MySelect = ({options, defaultValue, value, onChange}) => {
                 onChange={(e) => onChange(e.target.value)}
             >
                 {options.map((option) => (
-                    <option key={option.name + defaultValue} value={option.value}>
+                    <option key={option.name + option.value} value={option.value}>
                         {option.name}
                     </option>
                 ))}
