@@ -1,0 +1,14 @@
+.hamburgerButton{
+    cursor: pointer;
+}
+.hamburgerButton div {
+    width: 35px;
+    height: 6px;
+    background-color: black;
+    margin-bottom: 6px;
+    transition: background-color ease-in 0.1s;
+}
+.hamburgerButton div:hover{
+    background-color: #3a3a3a;
+    transition: background-color ease-in 0.3s;
+}
