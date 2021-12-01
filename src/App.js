@@ -13,6 +13,9 @@ import LinkPropertiesForm from "./components/linkPropertiesForm";
 import LinkCreationForm from "./components/linkCreationForm";
 import LoaderSmall from "./components/UI/loader/loaderSmall";
 import StatusButton from "./components/UI/button/statusButton";
+import {useDispatch, useSelector} from "react-redux";
+import MyLoader from "./components/UI/loader/myLoader";
+import GroupCreationForm from "./components/groupCreationForm";
 
 
 function App() {
@@ -131,65 +134,92 @@ function App() {
         setModalLinkProp(false)
     };
 
+
+    const createGroup = (groupObj) => {
+        setUserGroups([...userGroups, groupObj]);
+
+       setSelectedUG(groupObj.USERGROUP_ID)
+        console.log(userGroups)
+    }
+
     return (
         <div className="App">
-            <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
-                <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups}/>
-            </MyModal>
-            <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
-                <TaskPropertiesForm
-                    task={selectedTask}
-                    setTask={setSelectedTask}
-                    uniqTaskGroups={uniqTaskGroups}
-                    updateTask={updateTask}
-                    removeTask={removeTask}
-                    setModalLinkProp={setModalLinkProp}
-                    setModalNewLink={setModalNewLink}
-                    setSelectedLinkID={setSelectedLinkID}
-                />
-            </MyModal>
-            <MyModal visible={modalLinkProp} setVisible={setModalLinkProp}>
-                <LinkPropertiesForm
-                    selectedTask={selectedTask}
-                    selectedLinkID={selectedLinkID}
-                    updateLink={updateLink}
-                    removeLink={removeLink}
-                />
-            </MyModal>
-            <MyModal visible={modalNewLink} setVisible={setModalNewLink}>
-                <LinkCreationForm
-                    selectedTask={selectedTask}
-                    selectedUG={selectedUG}
-                    createLink={createLink}
-                />
-            </MyModal>
-            <div className='nav-panel'>
+            {+selectedUG ?
+                <div>
+                    <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
+                        <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups}/>
+                    </MyModal>
+                    <MyModal visible={modalTaskProp} setVisible={setModalTaskProp}>
+                        <TaskPropertiesForm
+                            task={selectedTask}
+                            setTask={setSelectedTask}
+                            uniqTaskGroups={uniqTaskGroups}
+                            updateTask={updateTask}
+                            removeTask={removeTask}
+                            setModalLinkProp={setModalLinkProp}
+                            setModalNewLink={setModalNewLink}
+                            setSelectedLinkID={setSelectedLinkID}
+                        />
+                    </MyModal>
+                    <MyModal visible={modalLinkProp} setVisible={setModalLinkProp}>
+                        <LinkPropertiesForm
+                            selectedTask={selectedTask}
+                            selectedLinkID={selectedLinkID}
+                            updateLink={updateLink}
+                            removeLink={removeLink}
+                        />
+                    </MyModal>
+                    <MyModal visible={modalNewLink} setVisible={setModalNewLink}>
+                        <LinkCreationForm
+                            selectedTask={selectedTask}
+                            selectedUG={selectedUG}
+                            createLink={createLink}
+                        />
+                    </MyModal>
+                </div>
+                :
+                null
+            }
 
-            <TaskFilter
-                selectedUG={selectedUG}
-                setSelectedUG={setSelectedUG}
-                userGroups={userGroups}
-                filter={filter}
-                setFilter={setFilter}
-                uniqTaskGroups={uniqTaskGroups}
-            />
-                <div className="ui_container">
-                <StatusButton text='Manage Group'/>
-                <StatusButton onClick={() => setModalNewTask(true)} text='New Task'/>
-                <StatusButton text='Manual Refresh' onClick={()=> fetchTaskList()}/>
-                <LoaderSmall isLoading={isTaskListLoading}/>
+
+            <div className='nav-panel'>
+                <TaskFilter
+                    selectedUG={selectedUG}
+                    setSelectedUG={setSelectedUG}
+                    userGroups={userGroups}
+                    filter={filter}
+                    setFilter={setFilter}
+                    uniqTaskGroups={uniqTaskGroups}
+                />
+                {+selectedUG ?
+                    <div className="ui_container">
+                        <StatusButton text='Manage Group' onClick={() => addVal()}/>
+                        <StatusButton onClick={() => setModalNewTask(true)} text='New Task'/>
+                        <StatusButton text='Manual Refresh' onClick={() => fetchTaskList()}/>
+                        <LoaderSmall isLoading={isTaskListLoading}/>
+                    </div>
+                    : null
+                }
+
             </div>
-            </div>
-            <TaskList
-                taskList={sortedFilterdTasks}
-                user={user.userid}
-                selectedTask={selectedTask}
-                setSelectedTask={setSelectedTask}
-                changetaskListValue={changetaskListValue}
-                taskLinks={taskLinks}
-                setVisibleProp={setModalTaskProp}
-                isUGDataLoading={isUGDataLoading}
-            />
+            {(isUGDataLoading) ?
+                <div className='loader-div'><MyLoader/></div>
+                :
+                (+selectedUG) ?
+                    <TaskList
+                        taskList={sortedFilterdTasks}
+                        user={user.userid}
+                        selectedTask={selectedTask}
+                        setSelectedTask={setSelectedTask}
+                        changetaskListValue={changetaskListValue}
+                        taskLinks={taskLinks}
+                        setVisibleProp={setModalTaskProp}
+                        isUGDataLoading={isUGDataLoading}
+                    /> :
+                    <GroupCreationForm createGroup={createGroup}/>
+
+
+            }
         </div>
     );
 }
