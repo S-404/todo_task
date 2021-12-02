@@ -14,7 +14,7 @@ const TaskFilter = ({
             <MySelect
                 value={selectedUG}
                 defaultValue="user group"
-                onChange={(selectedUGValue) => setSelectedUG(selectedUGValue)}
+                onChange={(selectedUGValue) => setSelectedUG(+selectedUGValue)}
                 options={userGroups
                     .map((group) => ({
                         value: group.USERGROUP_ID,
@@ -23,7 +23,7 @@ const TaskFilter = ({
                     .concat({value: '0', name: '+ Create Group'})}
             />
             {
-                (+selectedUG)?
+                (selectedUG)?
                     <div className='ui_container'>
                     <MySelect
                         value={filter.taskGroup}

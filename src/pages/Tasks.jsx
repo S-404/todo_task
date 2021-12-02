@@ -19,7 +19,7 @@ import {useSelector} from "react-redux";
 
 
 function Tasks() {
-    const user = useSelector(state => state.user); //test user obj
+    const user = useSelector(state => state.user);
 
     const [selectedUG, setSelectedUG] = useState(0);
     const [userGroups, setUserGroups] = useState([]);
@@ -83,15 +83,17 @@ function Tasks() {
         const responseData = await Query.getData({
             query: 'TASK_LINKS',
             userid: user.userid,
-            selUG: +selectedUG,
+            selUG: selectedUG,
         });
         setTaskLinks(responseData);
     });
 
-    useEffect(async () => fetchUGData(), []);
+    useEffect(async () => fetchUGData(), [user]);
     useEffect(async () => {
+        if(selectedUG){
         fetchTaskList();
         fetchTaskLinks();
+        }
     }, [selectedUG]);
 
     const changetaskListValue = (taskID, fieldName, newValue) => {
@@ -137,14 +139,12 @@ function Tasks() {
 
     const createGroup = (groupObj) => {
         setUserGroups([...userGroups, groupObj]);
-
         setSelectedUG(groupObj.USERGROUP_ID)
-        console.log(userGroups)
     }
 
     return (
         <div className="App">
-            {+selectedUG ?
+            {selectedUG ?
                 <div>
                     <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
                         <TaskCreationForm createTask={createTask} uniqTaskGroups={uniqTaskGroups}/>
@@ -191,7 +191,7 @@ function Tasks() {
                     setFilter={setFilter}
                     uniqTaskGroups={uniqTaskGroups}
                 />
-                {+selectedUG ?
+                {selectedUG ?
                     <div className="ui_container">
                         <StatusButton text='Manage Group'/>
                         <StatusButton onClick={() => setModalNewTask(true)} text='New Task'/>
@@ -205,7 +205,7 @@ function Tasks() {
             {(isUGDataLoading) ?
                 <div className='loader-div'><MyLoader/></div>
                 :
-                (+selectedUG) ?
+                (selectedUG) ?
                     <TaskList
                         taskList={sortedFilterdTasks}
                         user={user.userid}

@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 function App() {
     const dispatch = useDispatch()
     const login = () => {
+        dispatch({type: 'SET_USERID', value: localStorage.getItem('userid')})
         dispatch({type: 'SET_AUTH', value: true})
     }
     const isLoading = (val) => {

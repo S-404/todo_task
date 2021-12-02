@@ -7,11 +7,10 @@ const Login = () => {
     const [userid, setUserid] = useState('user')
     const dispatch = useDispatch()
     const login = () => {
+        dispatch({type: 'SET_USERID', value: userid});
+        localStorage.setItem('userid', userid)
+
         dispatch({type: 'SET_AUTH', value: true});
-        let storageUID = localStorage.getItem('userid')
-        let useridVal = storageUID ? storageUID : userid
-        localStorage.setItem('userid', useridVal)
-        dispatch({type: 'SET_USERID', value: useridVal});
         localStorage.setItem('auth', 'true')
     }
 
