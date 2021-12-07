@@ -15,10 +15,14 @@ import LoaderSmall from "../components/UI/loader/loaderSmall";
 import StatusButton from "../components/UI/button/statusButton";
 import MyLoader from "../components/UI/loader/myLoader";
 import GroupCreationForm from "../components/groupCreationForm";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import GroupPropertiesForm from "../components/groupPropertiesForm";
 
 
 function Tasks() {
+
+    const dispatch = useDispatch();
+
     const user = useSelector(state => state.user);
 
     const [selectedUG, setSelectedUG] = useState(0);
@@ -88,20 +92,28 @@ function Tasks() {
         setTaskLinks(responseData);
     });
 
-    useEffect(async () => fetchUGData(), [user]);
+    useEffect(async () => fetchUGData(), [user.userid]);
     useEffect(async () => {
-        if(selectedUG){
-        fetchTaskList();
-        fetchTaskLinks();
+        if (selectedUG) {
+            fetchTaskList();
+            fetchTaskLinks();
+            dispatch({
+                type: 'SET_ADMIN_ROLE',
+                value: !!userGroups.filter((userGroup) =>
+                    userGroup.ROLE === 'admin' &&
+                    userGroup.USERGROUP_ID === selectedUG
+                ).length
+            })
         }
     }, [selectedUG]);
 
     const changetaskListValue = (taskID, fieldName, newValue) => {
         let tmpArr = Object.assign(taskList);
         if (tmpArr.length > 0) {
-            tmpArr.filter((task) => task.ID === taskID)[0][fieldName] = newValue;
-            tmpArr.filter((task) => task.ID === taskID)[0]['LAST_CHANGE'] = Date.now();
-            tmpArr.filter((task) => task.ID === taskID)[0]['USERID'] = user.userid;
+            let updRowIndex = tmpArr.findIndex((task) => task.ID === taskID)
+            tmpArr[updRowIndex][fieldName] = newValue;
+            tmpArr[updRowIndex].LAST_CHANGE = Date.now();
+            tmpArr[updRowIndex].USERID = user.userid;
         }
         setTaskList(tmpArr);
     };

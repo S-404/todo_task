@@ -1,5 +1,6 @@
 import {combineReducers, createStore} from "redux";
-import {isAuthReducer, userReducer} from "./authReducer";
+import {isAuthReducer} from "./authReducer";
+import {userReducer} from "./userReducer";
 import {isLoadingReducer} from "./isLoadingReducer";
 
 

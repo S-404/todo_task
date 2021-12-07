@@ -2,9 +2,6 @@ const authState = {
     isAuth: false
 }
 
-const userState = {
-    userid: '',
-}
 
 export const isAuthReducer = (state = authState, action)=>{
     switch (action.type){
@@ -15,11 +12,3 @@ export const isAuthReducer = (state = authState, action)=>{
     }
 }
 
-export const userReducer = (state = userState, action)=>{
-    switch (action.type){
-        case "SET_USERID":
-            return {...state, userid: action.value}
-        default:
-            return state
-    }
-}
