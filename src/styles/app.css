@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     scrollbar-width: thin; /*mozilla scrollbar*/
+    font-size: 15px;
 }
 
 *::-webkit-scrollbar {
@@ -29,7 +30,7 @@
     background: rgba(186, 186, 186, 0.557);
 }
 
-.App {
+.Tasks {
     width: 600px;
     display: flex;
     height: 100vh;
