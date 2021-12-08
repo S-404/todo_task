@@ -27,6 +27,7 @@ function Tasks() {
 
     const [selectedUG, setSelectedUG] = useState(0);
     const [userGroups, setUserGroups] = useState([]);
+    const [participants, setParticipants] = useState([])
     const [taskList, setTaskList] = useState([]);
     const [taskLinks, setTaskLinks] = useState([{
         ID: 0
@@ -62,7 +63,7 @@ function Tasks() {
     const [modalTaskProp, setModalTaskProp] = useState(false);
     const [modalNewLink, setModalNewLink] = useState(false);
     const [modalLinkProp, setModalLinkProp] = useState(false);
-
+    const [modalGroupProp, setModalGroupProp] = useState(false);
 
     const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(async () => {
         const responseData = await Query.getData({
@@ -70,9 +71,21 @@ function Tasks() {
             userid: user.userid,
         });
         setUserGroups(responseData);
-        if (!selectedUG) setSelectedUG(defaultUG(responseData));
+        if (!selectedUG) setSelectedUG(
+            responseData.length ?
+                responseData[0].USERGROUP_ID
+                : 0
+        );
     });
-    const defaultUG = (arr) => (arr.length ? arr[0].USERGROUP_ID : 0);
+
+    const [fetchParticipants, isParticipantsLoading, participantsError] = useFetching(async () => {
+        const responseData = await Query.getData({
+            query: 'PARTICIPANTS',
+            userid: user.userid,
+            selUG: selectedUG,
+        });
+        setParticipants(responseData);
+    });
 
     const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
         const responseData = await Query.getData({
@@ -93,14 +106,16 @@ function Tasks() {
     });
 
     useEffect(async () => fetchUGData(), [user.userid]);
+
     useEffect(async () => {
         if (selectedUG) {
             fetchTaskList();
             fetchTaskLinks();
+            fetchParticipants();
             dispatch({
                 type: 'SET_ADMIN_ROLE',
                 value: !!userGroups.filter((userGroup) =>
-                    userGroup.ROLE === 'admin' &&
+                    userGroup.ISADMIN  &&
                     userGroup.USERGROUP_ID === selectedUG
                 ).length
             })
@@ -148,10 +163,17 @@ function Tasks() {
         setModalLinkProp(false)
     };
 
-
     const createGroup = (groupObj) => {
+        groupObj.USERID = user.userid;
+        groupObj.ISADMIN = true;
         setUserGroups([...userGroups, groupObj]);
         setSelectedUG(groupObj.USERGROUP_ID)
+    }
+
+    const leaveGroup = () => {
+        if (!window.confirm('You will leave the group. ' +
+            'If you are the last member then the group will be deleted')) return;
+
     }
 
     return (
@@ -188,12 +210,18 @@ function Tasks() {
                             createLink={createLink}
                         />
                     </MyModal>
+                    <MyModal visible={modalGroupProp} setVisible={setModalGroupProp}>
+                        <GroupPropertiesForm
+                            setParticipants={setParticipants}
+                            participants={participants}
+                            isParticipantsLoading={isParticipantsLoading}
+                            leaveGroup={leaveGroup}
+                        />
+                    </MyModal>
                 </div>
                 :
                 null
             }
-
-
             <div className='control-panel'>
                 <TaskFilter
                     selectedUG={selectedUG}
