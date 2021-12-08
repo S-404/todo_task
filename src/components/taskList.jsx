@@ -1,22 +1,19 @@
 import React, {useState} from 'react';
 import TaskPanel from './taskPanel.jsx';
-import MyLoader from "./UI/loader/myLoader";
 
 const TaskList = ({
                       taskList,
                       user,
                       selectedTask,
                       setSelectedTask,
-                      changetaskListValue,
+                      changeTaskListValue,
                       taskLinks,
                       setVisibleProp,
-                      isUGDataLoading
                   }) => {
     const [statusView, setStatusView] = useState('');
 
     return (
         <div className="task-list-container">
-            {( isUGDataLoading) ? <div className='loader-div'><MyLoader/></div> :
                 <table className="task-list-table">
                     <thead className="task-list-table__thead">
                     <tr className="task-list-table__tr">
@@ -36,7 +33,7 @@ const TaskList = ({
                                 user={user}
                                 selectedTask={selectedTask}
                                 setSelectedTask={setSelectedTask}
-                                changetaskListValue={changetaskListValue}
+                                changeTaskListValue={changeTaskListValue}
                                 taskLinks={taskLinks}
                                 setVisibleProp={setVisibleProp}
                             />
@@ -44,7 +41,6 @@ const TaskList = ({
                     })}
                     </tbody>
                 </table>
-            }
         </div>
     );
 };

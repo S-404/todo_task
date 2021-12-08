@@ -10,7 +10,8 @@ const LinkPropertiesForm = ({selectedLinkID, selectedTask, updateLink, removeLin
     )
     useEffect( () => {
         if(selectedLinkID){
-        setSelectedTaskLink(...selectedTask.taskLinks.filter(x => x.ID === selectedLinkID)
+        setSelectedTaskLink(
+            ...selectedTask.taskLinks.filter((link) => link.ID === selectedLinkID)
         )}
     }, [selectedLinkID])
 

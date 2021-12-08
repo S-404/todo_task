@@ -9,7 +9,7 @@ const TaskPanel = ({
                        user,
                        selectedTask,
                        setSelectedTask,
-                       changetaskListValue,
+                       changeTaskListValue,
                        taskLinks,
                        setVisibleProp,
                    }) => {
@@ -53,8 +53,8 @@ const TaskPanel = ({
     };
 
     const getNewSelectedTaskData = () => {
-        const linksArr = taskLinks.filter((taskLinksRow) => taskLinksRow['TASK_ID'] === task.ID);
-        const mainLink = linksArr.filter((taskLinksRow) => taskLinksRow['ISMAIN'] === true);
+        const linksArr = taskLinks.filter((link) => link.TASK_ID === task.ID);
+        const mainLink = linksArr.filter((link) => link.ISMAIN === true);
 
         return {
             ...selectedTask,
@@ -133,7 +133,7 @@ const TaskPanel = ({
                         text={statusView}
                         onClick={(event) => {
                             event.stopPropagation();
-                            changetaskListValue(...newStatusProps());
+                            changeTaskListValue(...newStatusProps());
                             setSelectedTask({...selectedTask, ID: 0, STATUS: ''});
                         }}
                     />

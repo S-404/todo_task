@@ -13,12 +13,12 @@ function App() {
     const isLoading = (val) => {
         dispatch({type: 'SET_isLoading', value: val})
     }
-    useEffect(()=>{
-        if(localStorage.getItem('auth')&&localStorage.getItem('userid')){
+    useEffect(() => {
+        if (localStorage.getItem('auth') && localStorage.getItem('userid')) {
             login();
         }
         isLoading(false)
-    },[])
+    }, [])
     return (
         <Router>
             <NavbarVertical/>

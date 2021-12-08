@@ -59,6 +59,7 @@ function Tasks() {
     });
     const uniqTaskGroups = useTaskGroups(taskList);
     const sortedFilterdTasks = useTasks(taskList, filter.sort, filter.taskGroup, filter.status);
+
     const [modalNewTask, setModalNewTask] = useState(false);
     const [modalTaskProp, setModalTaskProp] = useState(false);
     const [modalNewLink, setModalNewLink] = useState(false);
@@ -122,7 +123,7 @@ function Tasks() {
         }
     }, [selectedUG]);
 
-    const changetaskListValue = (taskID, fieldName, newValue) => {
+    const changeTaskListValue = (taskID, fieldName, newValue) => {
         let tmpArr = Object.assign(taskList);
         if (tmpArr.length > 0) {
             let updRowIndex = tmpArr.findIndex((task) => task.ID === taskID)
@@ -137,11 +138,12 @@ function Tasks() {
         setModalNewTask(false);
     };
     const updateTask = (taskObj) => {
-        setTaskList([...taskList.filter((x) => x.ID !== taskObj.ID), taskObj]);
+        setTaskList([...taskList.filter((task) => task.ID !== taskObj.ID), taskObj]);
         setModalTaskProp(false);
     };
     const removeTask = (taskObj) => {
-        setTaskList(taskList.filter((x) => x.ID !== taskObj.ID));
+        if (!window.confirm('Task will be removed')) return;
+        setTaskList(taskList.filter((task) => task.ID !== taskObj.ID));
         setModalTaskProp(false);
     };
 
@@ -151,15 +153,16 @@ function Tasks() {
         setModalNewLink(false)
     };
     const updateLink = (linkObj) => {
-        let newTaskLinksObj = [...selectedTask.taskLinks.filter((x) => x.ID !== linkObj.ID), linkObj]
+        let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]
         setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
-        setTaskLinks([...taskLinks.filter((x) => x.ID !== linkObj.ID), linkObj]);
+        setTaskLinks([...taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]);
         setModalLinkProp(false)
     };
     const removeLink = (linkObj) => {
-        let newTaskLinksObj = [...selectedTask.taskLinks.filter((x) => x.ID !== linkObj.ID)]
+        if (!window.confirm('Link will be removed')) return;
+        let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== linkObj.ID)]
         setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
-        setTaskLinks(taskLinks.filter((x) => x.ID !== linkObj.ID));
+        setTaskLinks(taskLinks.filter((link) => link.ID !== linkObj.ID));
         setModalLinkProp(false)
     };
 
@@ -177,7 +180,7 @@ function Tasks() {
     }
 
     return (
-        <div className="App">
+        <div className="Tasks">
             {selectedUG ?
                 <div>
                     <MyModal visible={modalNewTask} setVisible={setModalNewTask}>
@@ -233,16 +236,16 @@ function Tasks() {
                 />
                 {selectedUG ?
                     <div className="ui_container">
-                        <StatusButton text='Manage Group'/>
+                        <StatusButton onClick={() => setModalGroupProp(true)} text='Manage Group'/>
                         <StatusButton onClick={() => setModalNewTask(true)} text='New Task'/>
-                        <StatusButton text='Manual Refresh' onClick={() => fetchTaskList()}/>
+                        <StatusButton onClick={() => fetchTaskList()} text='Manual Refresh'/>
                         <LoaderSmall isLoading={isTaskListLoading}/>
                     </div>
                     : null
                 }
 
             </div>
-            {(isUGDataLoading) ?
+            {(isUGDataLoading || isTaskListLoading) ?
                 <div className='loader-div'><MyLoader/></div>
                 :
                 (selectedUG) ?
@@ -251,14 +254,11 @@ function Tasks() {
                         user={user.userid}
                         selectedTask={selectedTask}
                         setSelectedTask={setSelectedTask}
-                        changetaskListValue={changetaskListValue}
+                        changeTaskListValue={changeTaskListValue}
                         taskLinks={taskLinks}
                         setVisibleProp={setModalTaskProp}
-                        isUGDataLoading={isUGDataLoading}
                     /> :
                     <GroupCreationForm createGroup={createGroup}/>
-
-
             }
         </div>
 
