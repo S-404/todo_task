@@ -1,0 +1,12 @@
+.myCheckbox {
+    position: relative;
+    min-width: 60px;
+}
+
+.myCheckbox__input {
+
+}
+
+.myCheckbox__label {
+ font-size: small;
+}
