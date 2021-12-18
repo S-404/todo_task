@@ -68,7 +68,7 @@ function Tasks() {
 
     const [fetchUGData, isUGDataLoading, isUGDataError] = useFetching(async () => {
         const responseData = await Query.getData({
-            query: 'USERGROUPS',
+            query: 'usergroup',
             userid: user.userid,
         });
         setUserGroups(responseData);
@@ -90,18 +90,14 @@ function Tasks() {
 
     const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
         const responseData = await Query.getData({
-            query: 'TASK_LIST',
-            userid: user.userid,
-            selUG: selectedUG,
+            query: `tasks/list/${selectedUG}`,
         });
         setTaskList(responseData);
     });
 
     const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(async () => {
         const responseData = await Query.getData({
-            query: 'TASK_LINKS',
-            userid: user.userid,
-            selUG: selectedUG,
+            query: `tasklinks/${selectedUG}`,
         });
         setTaskLinks(responseData);
     });

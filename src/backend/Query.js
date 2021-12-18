@@ -2,13 +2,12 @@ import axios from 'axios';
 
 export default class Query {
     static async getData({...param}) {
-        const response = await axios.get(
-            `http://localhost:5000/KLOCKIS/${param.query}`,
-            {
-                params: param,
-            }
-        )
-        return response.data?.recordset;
+        const response = await axios({
+            method:'GET',
+            url: `http://localhost:5001/api/${param.query}`,
+            params: {...param},
+        })
+        return response.data;
     }
 
     static async updData({...param}) {
