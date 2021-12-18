@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import StatusButton from "./UI/button/statusButton";
+import SmallButton from "./UI/button/smallButton";
 import MyCheckbox from "./UI/checkbox/myCheckbox";
 
 const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
@@ -43,7 +43,7 @@ const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
                                 isChecked={!!participant.ISADMIN}
                                 onChange={()=>appointAdmin(participant.USERID)}
                             />
-                            <StatusButton
+                            <SmallButton
                                 text='exclude'
                                 onClick={() => excludeUser(participant.USERID)}
                             />
@@ -51,7 +51,7 @@ const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
                     </div>
                 ))
                 }
-                <StatusButton
+                <SmallButton
                     text='invite user'
                     onClick={()=> setModalInvite(true)}
                 />

@@ -1,4 +1,4 @@
-.statusButton {
+.smallButton {
     background-color: rgb(230, 230, 230);
     padding: 0 0;
     border: 0 solid gray;
@@ -7,18 +7,18 @@
     cursor: pointer;
 }
 
-.statusButton:hover {
+.smallButton:hover {
     background-color: rgb(194, 194, 194);
 }
 
-.statusButton:active {
+.smallButton:active {
     background-color: rgb(128, 128, 128);
 }
 
 
 
 @media (max-width: 510px) {
-    .statusButton {
+    .smallButton {
         height: 34px;
     }
 }

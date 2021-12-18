@@ -1,5 +1,5 @@
 import React from 'react';
-import StatusButton from './UI/button/statusButton.jsx';
+import SmallButton from './UI/button/smallButton.jsx';
 import {dlinefromfloat, checkDLine, getStatus} from '../utils/utils.js';
 
 const TaskPanel = ({
@@ -11,7 +11,7 @@ const TaskPanel = ({
                        setSelectedTask,
                        changeTaskListValue,
                        taskLinks,
-                       setVisibleProp,
+                       setVisible,
                    }) => {
     let status = getStatus(task.PERIODICITY, task.STARTED, task.FINISHED);
 
@@ -95,7 +95,7 @@ const TaskPanel = ({
                         {task.TASK_NAME}
                         <div className="task-name-div__task-option-buttons-div ">
                             <button
-                                onClick={() => setVisibleProp(true)}
+                                onClick={() => setVisible('taskProp',true)}
                                 className="task-option-buttons-div__task-option-button task-option-buttons-div__task-option-button_properties"
                             >
                                 ...
@@ -129,7 +129,7 @@ const TaskPanel = ({
                 }
             >
                 {selectedTask.ID === task.ID ? (
-                    <StatusButton
+                    <SmallButton
                         text={statusView}
                         onClick={(event) => {
                             event.stopPropagation();

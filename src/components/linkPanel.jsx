@@ -1,7 +1,7 @@
 import React from 'react';
-import StatusButton from './UI/button/statusButton';
+import SmallButton from './UI/button/smallButton';
 
-const LinkPanel = ({link, setModalLinkProp,setSelectedLinkID}) => {
+const LinkPanel = ({link, setVisible, setSelectedLinkID}) => {
     return (
         <div className="link-panel">
             <a className="link-panel__ahref" href={link.TASK_LINK} target="_blank" rel="noreferrer">
@@ -9,13 +9,15 @@ const LinkPanel = ({link, setModalLinkProp,setSelectedLinkID}) => {
                 {link['ISMAIN'] ? ' [main]' : ''}
             </a>
             <div className={'link-panel__buttons-div'}>
-                <StatusButton
+                <SmallButton
                     text={'edit✎'}
-                    onClick={()=> {
+                    onClick={() => {
                         setSelectedLinkID(link.ID);
-                        setModalLinkProp(true);
+                        setVisible('linkProp',true);
                     }}/>
-                <StatusButton text={'copy📄'} onClick={() => {navigator.clipboard.writeText(link.TASK_LINK)}}/>
+                <SmallButton text={'copy📄'} onClick={() => {
+                    navigator.clipboard.writeText(link.TASK_LINK)
+                }}/>
             </div>
         </div>
     );
