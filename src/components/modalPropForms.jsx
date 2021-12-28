@@ -24,39 +24,78 @@ const ModalPropForms = ({
     const [participants, setParticipants] = useState([]);
     const [selectedLinkID, setSelectedLinkID] = useState(0);
 
-    const createTask = (taskObj) => {
-        setTaskList([...taskList, taskObj]);
-        setVisible('newTask', false);
+    const createTask = async (taskObj) => {
+        let param = {query: `tasks`, ...taskObj, usergroupid: selectedUG}
+        const responseData = await Query.addData(param);
+        if (responseData.length) {
+            taskObj.ID = responseData[0].ID
+            setTaskList([...taskList, taskObj]);
+            setVisible('newTask', false);
+        }
     };
-    const updateTask = (taskObj) => {
-        setTaskList([...taskList.filter((task) => task.ID !== taskObj.ID), taskObj]);
-        setVisible('taskProp', false);
+    const updateTask = async (taskObj) => {
+        let param = {query: `tasks/task`, ...taskObj, usergroupid: selectedUG}
+        const responseData = await Query.updateData(param);
+        let id = responseData[0].ID
+        if (id) {
+            setTaskList([...taskList.filter((task) => task.ID !== id), taskObj]);
+            setVisible('taskProp', false);
+        }
+
     };
-    const removeTask = (taskObj) => {
+
+    const removeTask = async (taskObj) => {
         if (!window.confirm('Task will be removed')) return;
-        setTaskList(taskList.filter((task) => task.ID !== taskObj.ID));
-        setVisible('taskProp', false);
+        let param = {query: `tasks/${selectedUG}/${taskObj.ID}`}
+        const responseData = await Query.deleteData(param);
+        let id = responseData[0].ID
+        if (id) {
+            setTaskList(taskList.filter((task) => task.ID !== id));
+            setVisible('taskProp', false);
+        }
     };
 
-    const createLink = (linkObj) => {
-        setSelectedTask({...selectedTask, taskLinks: [...selectedTask.taskLinks, linkObj]})
-        setTaskLinks([...taskLinks, linkObj])
-        setVisible('newLink', false)
+    const createLink = async (linkObj) => {
+        let param = {query: `tasklinks`, ...linkObj}
+        const responseData = await Query.addData(param);
+        let id = responseData[0].ID
+        if(id){
+            linkObj.ID = id
+            setSelectedTask({...selectedTask, taskLinks: [...selectedTask.taskLinks, linkObj]})
+            setTaskLinks([...taskLinks, linkObj])
+            setVisible('newLink', false)
+        }
+
     };
 
-    const updateLink = (linkObj) => {
-        let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]
-        setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
-        setTaskLinks([...taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]);
-        setVisible('linkProp', false)
+    const updateLink = async (linkObj) => {
+        let param = {query: `tasklinks`, ...linkObj}
+        console.log(linkObj)
+        const responseData = await Query.updateData(param);
+        let id = responseData[0].ID
+        if(id){
+            let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]
+            setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
+            setTaskLinks([...taskLinks.filter((link) => link.ID !== linkObj.ID), linkObj]);
+            setVisible('linkProp', false)
+        }
+
+
     };
 
-    const removeLink = (linkObj) => {
+    const removeLink = async (linkObj) => {
         if (!window.confirm('Link will be removed')) return;
-        let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== linkObj.ID)]
-        setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
-        setTaskLinks(taskLinks.filter((link) => link.ID !== linkObj.ID));
-        setVisible('linkProp', false)
+        let param = {query: `tasklinks/${selectedUG}/${linkObj.ID}`}
+        const responseData = await Query.deleteData(param);
+        let id = responseData[0].ID
+        if (id) {
+            let newTaskLinksObj = [...selectedTask.taskLinks.filter((link) => link.ID !== id)]
+            setSelectedTask({...selectedTask, taskLinks: newTaskLinksObj})
+            setTaskLinks(taskLinks.filter((link) => link.ID !== id));
+            setVisible('linkProp', false)
+        }
+
+
     };
 
     const [fetchParticipants, isParticipantsLoading, participantsError] = useFetching(async () => {

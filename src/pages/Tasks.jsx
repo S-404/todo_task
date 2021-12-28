@@ -111,18 +111,18 @@ function Tasks() {
             tmpArr[updRowIndex].USERID = user.userid;
         }
         setTaskList(tmpArr);
-    };
-
-    const createGroup = (groupObj) => {
-        groupObj.USERID = user.userid;
-        groupObj.ISADMIN = true;
-        setUserGroups([...userGroups, groupObj]);
-        setSelectedUG(groupObj.USERGROUP_ID)
     }
 
-    const leaveGroup = () => {
+
+    const leaveGroup = async () => {
         if (!window.confirm('You will leave the group. ' +
             'If you are the last member then the group will be deleted')) return;
+        let param = {query: `user/${user.userid}/${selectedUG}`}
+        const responseData = await Query.deleteData(param);
+        if (responseData.length) {
+            logout()
+        }
+
     }
 
     const setVisible = (key, value) => {
@@ -179,7 +179,10 @@ function Tasks() {
                         taskLinks={taskLinks}
                         setVisible={setVisible}
                     /> :
-                    <GroupCreationForm createGroup={createGroup}/>
+                    <GroupCreationForm
+                        userGroups={userGroups}
+                        setUserGroups={setUserGroups}
+                    />
             }
         </div>
 
