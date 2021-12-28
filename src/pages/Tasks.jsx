@@ -17,10 +17,14 @@ import ModalPropForms from "../components/modalPropForms";
 function Tasks() {
 
     const dispatch = useDispatch();
+    const user = useSelector(state => state.user)
+    const selectedUG = (useSelector(state => state.user)).selectedUG
+    const logout = () => {
+        dispatch({type: 'SET_AUTH', value: false});
+        localStorage.removeItem('auth')
+        localStorage.removeItem('userid')
+    }
 
-    const user = useSelector(state => state.user);
-
-    const [selectedUG, setSelectedUG] = useState(0);
     const [userGroups, setUserGroups] = useState([]);
     const [taskList, setTaskList] = useState([]);
     const [taskLinks, setTaskLinks] = useState([{
@@ -68,14 +72,7 @@ function Tasks() {
             userid: user.userid,
         });
         setUserGroups(responseData);
-        if (!selectedUG) setSelectedUG(
-            responseData.length ?
-                responseData[0].USERGROUP_ID
-                : 0
-        );
     });
-
-
     const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
         const responseData = await Query.getData({
             query: `tasks/list/${selectedUG}`,
@@ -90,12 +87,11 @@ function Tasks() {
         setTaskLinks(responseData);
     });
 
-    useEffect(async () => fetchUGData(), [user.userid]);
-
+    useEffect(async () => await fetchUGData(), [user.userid]);
     useEffect(async () => {
         if (selectedUG) {
-            fetchTaskList();
-            fetchTaskLinks();
+            await fetchTaskList();
+            await fetchTaskLinks();
             dispatch({
                 type: 'SET_ADMIN_ROLE',
                 value: !!userGroups.filter((userGroup) =>
@@ -104,6 +100,7 @@ function Tasks() {
                 ).length
             })
         }
+        localStorage.setItem('selectedUG', selectedUG)
     }, [selectedUG]);
 
     const changeTaskListValue = (taskID, fieldName, newValue) => {
@@ -154,8 +151,6 @@ function Tasks() {
             }
             <div className='control-panel'>
                 <TaskFilter
-                    selectedUG={selectedUG}
-                    setSelectedUG={setSelectedUG}
                     userGroups={userGroups}
                     filter={filter}
                     setFilter={setFilter}

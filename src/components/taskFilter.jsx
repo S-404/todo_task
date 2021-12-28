@@ -1,20 +1,27 @@
 import React from 'react';
 import MySelect from './UI/select/mySelect';
+import {useDispatch, useSelector} from "react-redux";
 
 const TaskFilter = ({
-                        selectedUG,
-                        setSelectedUG,
                         userGroups,
                         filter,
                         setFilter,
                         uniqTaskGroups,
                     }) => {
+
+    const dispatch = useDispatch();
+    const selectedUG = (useSelector(state => state.user)).selectedUG;
+
     return (
         <div className='ui_container'>
             <MySelect
                 value={selectedUG}
                 defaultValue="user group"
-                onChange={(selectedUGValue) => setSelectedUG(+selectedUGValue)}
+                onChange={(selectedUGValue) =>
+                    dispatch({
+                        type: 'SET_SELECTED_UG',
+                        value: +selectedUGValue,
+                    })}
                 options={userGroups
                     .map((group) => ({
                         value: group.USERGROUP_ID,

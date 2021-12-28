@@ -17,6 +17,9 @@ function App() {
         if (localStorage.getItem('auth') && localStorage.getItem('userid')) {
             login();
         }
+        if(localStorage.getItem('selectedUG')){
+            dispatch({type: 'SET_SELECTED_UG', value: localStorage.getItem('selectedUG')})
+        }
         isLoading(false)
     }, [])
     return (

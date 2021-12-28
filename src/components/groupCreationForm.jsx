@@ -1,23 +1,51 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MyInput from "./UI/input/myInput";
 import MyButton from "./UI/button/myButton";
+import Query from "../backend/query";
+import {useFetching} from "./hooks/useFetching";
+import {useDispatch, useSelector} from "react-redux";
+const GroupCreationForm = ({userGroups, setUserGroups}) => {
 
-const GroupCreationForm = ({createGroup}) => {
-    let defaultGroup = {
-        USERGROUP:'New Group Name',
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user)
+
+    const defaultGroup = {
+        USERGROUP: 'New Group Name',
         USERGROUP_ID: 0,
     };
 
     const [group, setGroup] = useState(defaultGroup);
 
-    const addNewGroup = (e) => {
-        e.preventDefault();
-        const newGroup = {
+    const [createGroup, isCreateGroupLoading, createGroupError] = useFetching(async () => {
+        const groupObj = {
             ...group,
-            USERGROUP_ID: Date.now(),
             USERGROUP: group.USERGROUP === '' ? 'New Group' : group.USERGROUP,
         };
-        createGroup(newGroup);
+        const param = {query: 'usergroup', name: groupObj.USERGROUP, userid: user.userid}
+        const responseData = await Query.addData(param);
+        let id = responseData[0].USERGROUP_ID;
+        if (id) {
+            group.USERGROUP_ID = id
+            groupObj.USERGROUP_ID = id;
+            groupObj.USERID = user.userid;
+            groupObj.ISADMIN = true;
+            setUserGroups([...userGroups, groupObj]);
+        }
+    })
+
+    useEffect(async () => {
+            if (group.USERGROUP_ID) {
+                dispatch({
+                    type: 'SET_SELECTED_UG',
+                    value: group.USERGROUP_ID,
+                })
+            }
+        }
+        , [group.USERGROUP_ID])
+
+    const addNewGroup = async (e) => {
+        e.preventDefault();
+        await createGroup();
         setGroup(defaultGroup);
     };
 
