@@ -13,12 +13,10 @@
 
 .task-list-table__td {
     border: 1px solid gray;
-    padding: 1px;
-    padding-left: 2px;
+    padding: 2px;
     white-space: nowrap;
     margin: 2px;
     overflow: hidden;
-    height: 22px;
 }
 
 .task-list-table__thead {
@@ -89,7 +87,7 @@
 }
 
 .task-option-buttons-div__task-option-button {
-    border: 0 solid gray;
+    border: 0;
     border-radius: 5px;
     width: 35px;
     cursor: pointer;

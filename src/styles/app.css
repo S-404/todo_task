@@ -74,6 +74,7 @@
 .links-div, .participants-list {
     position: relative;
     overflow-y: scroll;
+    overflow-x: hidden;
     max-height: 110px;
     border: 2px solid;
     border-color: #979797 #e6e6e6 #fefefe #9b99a3;
