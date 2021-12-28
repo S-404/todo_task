@@ -56,7 +56,7 @@ function Tasks() {
         status: '',
     });
     const uniqTaskGroups = useTaskGroups(taskList);
-    const sortedFilterdTasks = useTasks(taskList, filter.sort, filter.taskGroup, filter.status);
+    const sortedFilteredTasks = useTasks(taskList, filter.sort, filter.taskGroup, filter.status);
 
     const [modalForms, setModalForms] = useState({
         newTask: false,
@@ -79,8 +79,7 @@ function Tasks() {
         });
         setTaskList(responseData);
     });
-
-    const [fetchTaskLinks, isTaskLinksLoading, taskLinksError] = useFetching(async () => {
+    const [fetchTaskLinks] = useFetching(async () => {
         const responseData = await Query.getData({
             query: `tasklinks/${selectedUG}`,
         });
@@ -103,12 +102,12 @@ function Tasks() {
         localStorage.setItem('selectedUG', selectedUG)
     }, [selectedUG]);
 
-    const changeTaskListValue = (taskID, fieldName, newValue) => {
+    const changeTaskStatus = async (taskID, fieldName, newValue) => {
         let tmpArr = Object.assign(taskList);
         if (tmpArr.length > 0) {
             let updRowIndex = tmpArr.findIndex((task) => task.ID === taskID)
             tmpArr[updRowIndex][fieldName] = newValue;
-            tmpArr[updRowIndex].LAST_CHANGE = Date.now();
+            tmpArr[updRowIndex].LAST_CHANGE = newValue;
             tmpArr[updRowIndex].USERID = user.userid;
         }
         setTaskList(tmpArr);
@@ -158,8 +157,8 @@ function Tasks() {
                 />
                 {selectedUG ?
                     <div className="ui_container">
-                        <SmallButton onClick={() => setVisible('groupProp',true)} text='Manage Group'/>
-                        <SmallButton onClick={() => setVisible('newTask',true)} text='New Task'/>
+                        <SmallButton onClick={() => setVisible('groupProp', true)} text='Manage Group'/>
+                        <SmallButton onClick={() => setVisible('newTask', true)} text='New Task'/>
                         <SmallButton onClick={() => fetchTaskList()} text='Manual Refresh'/>
                         <LoaderSmall isLoading={isTaskListLoading}/>
                     </div>
@@ -172,11 +171,11 @@ function Tasks() {
                 :
                 (selectedUG) ?
                     <TaskList
-                        taskList={sortedFilterdTasks}
+                        sortedFilteredTasks={sortedFilteredTasks}
                         user={user.userid}
                         selectedTask={selectedTask}
                         setSelectedTask={setSelectedTask}
-                        changeTaskListValue={changeTaskListValue}
+                        changeTaskStatus={changeTaskStatus}
                         taskLinks={taskLinks}
                         setVisible={setVisible}
                     /> :

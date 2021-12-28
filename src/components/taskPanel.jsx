@@ -9,7 +9,7 @@ const TaskPanel = ({
                        user,
                        selectedTask,
                        setSelectedTask,
-                       changeTaskListValue,
+                       changeTaskStatus,
                        taskLinks,
                        setVisible,
                    }) => {
@@ -35,7 +35,7 @@ const TaskPanel = ({
 
         switch (statusView) {
             case 'finish':
-                newValue = Date.now();
+                newValue = new Date();
                 fieldName = 'FINISHED';
                 break;
             case 'reset':
@@ -43,13 +43,13 @@ const TaskPanel = ({
                 fieldName = 'STARTED';
                 break;
             case 'start':
-                newValue = Date.now();
+                newValue = new Date();
                 fieldName = 'STARTED';
                 break;
             default:
                 break;
         }
-        return [task.ID, fieldName, newValue];
+        return [task.ID, fieldName, newValue, statusView];
     };
 
     const getNewSelectedTaskData = () => {
@@ -133,7 +133,7 @@ const TaskPanel = ({
                         text={statusView}
                         onClick={(event) => {
                             event.stopPropagation();
-                            changeTaskListValue(...newStatusProps());
+                            changeTaskStatus(...newStatusProps());
                             setSelectedTask({...selectedTask, ID: 0, STATUS: ''});
                         }}
                     />

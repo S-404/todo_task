@@ -64,9 +64,11 @@ export const checkDLine = (dlineValue, periodicity, status) => {
     return result;
 };
 
-export const getStatus = (periodicity, started, finished) => {
-    let d = new Date();
-    d.setHours(0);
+export const getStatus = (periodicity, started_date, finished_date) => {
+    let today = new Date();
+    let started = new Date(started_date)
+    let finished = new Date(finished_date)
+    today.setHours(0);
     const resultStr = (checkDate) => {
         if (started > checkDate) {
             if (finished > started) return 'done';
@@ -77,11 +79,11 @@ export const getStatus = (periodicity, started, finished) => {
     };
     switch (periodicity) {
         case 1:
-            return resultStr(d);
+            return resultStr(today);
         case 7:
-            return resultStr(firstDayOfWeek(d));
+            return resultStr(firstDayOfWeek(today));
         case 30:
-            return resultStr(firstDayOfMonth(d));
+            return resultStr(firstDayOfMonth(today));
         default:
             return '';
     }

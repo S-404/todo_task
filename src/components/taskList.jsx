@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import TaskPanel from './taskPanel.jsx';
 
 const TaskList = ({
-                      taskList,
+                      sortedFilteredTasks,
                       user,
                       selectedTask,
                       setSelectedTask,
-                      changeTaskListValue,
+                      changeTaskStatus,
                       taskLinks,
                       setVisible,
                   }) => {
@@ -23,7 +23,7 @@ const TaskList = ({
                     </tr>
                     </thead>
                     <tbody className="task-list-table__tbody">
-                    {taskList.map((task) => {
+                    {sortedFilteredTasks.map((task) => {
                         return (
                             <TaskPanel
                                 key={task.ID}
@@ -33,7 +33,7 @@ const TaskList = ({
                                 user={user}
                                 selectedTask={selectedTask}
                                 setSelectedTask={setSelectedTask}
-                                changeTaskListValue={changeTaskListValue}
+                                changeTaskStatus={changeTaskStatus}
                                 taskLinks={taskLinks}
                                 setVisible={setVisible}
                             />
