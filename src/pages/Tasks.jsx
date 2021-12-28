@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Query from '../backend/query';
 import {useFetching} from '../components/hooks/useFetching';
 import {useTaskGroups, useTasks} from '../components/hooks/useTasks';
 import TaskFilter from '../components/taskFilter';
@@ -12,6 +11,7 @@ import MyLoader from "../components/UI/loader/myLoader";
 import GroupCreationForm from "../components/groupCreationForm";
 import {useDispatch, useSelector} from "react-redux";
 import ModalPropForms from "../components/modalPropForms";
+import Query from "../backend/query";
 
 
 function Tasks() {
