@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ModalPropForms from "../components/modalPropForms";
 import Query from "../backend/query";
 import {getDateFormat} from "../utils/utils";
+import {useInterval} from "../components/hooks/useInterval";
 
 
 function Tasks() {
@@ -104,25 +105,16 @@ function Tasks() {
         }
     });
 
-    const [loadCounter, setLoadCounter] = useState(0)
 
-    useEffect(() => {
-        const intervalID = setInterval(() => {
-            if (!isLastUpdLoading) {
-                setLoadCounter((prevCount) => prevCount + 1)
-            }
-        }, 10000);
-        return () => {
-            clearInterval(intervalID)
+    useInterval(async () => {
+        if (!isLastUpdLoading) {
+            await fetchLastUpd();
         }
-    }, [])
-
-    useEffect(fetchLastUpd, [loadCounter])
+    }, 8000)
 
     useEffect(() => {
         if (lastTaskListChanges.length) {
             lastTaskListChanges.forEach((task) => {
-                console.log(task)
                 updateTaskList_Task(task)
             })
         }
