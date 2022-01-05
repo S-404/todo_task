@@ -76,6 +76,13 @@ function Tasks() {
             userid: user.userid,
         });
         setUserGroups(responseData);
+        dispatch({
+            type: 'SET_ADMIN_ROLE',
+            value: !!responseData.filter((userGroup) =>
+                userGroup.ISADMIN &&
+                userGroup.USERGROUP_ID === selectedUG
+            ).length
+        })
     });
     const [fetchTaskList, isTaskListLoading, taskListError] = useFetching(async () => {
         const responseData = await Query.getData({
@@ -125,13 +132,7 @@ function Tasks() {
         if (selectedUG) {
             await fetchTaskList();
             await fetchTaskLinks();
-            dispatch({
-                type: 'SET_ADMIN_ROLE',
-                value: !!userGroups.filter((userGroup) =>
-                    userGroup.ISADMIN &&
-                    userGroup.USERGROUP_ID === selectedUG
-                ).length
-            })
+            await fetchUGData();
         }
         localStorage.setItem('selectedUG', selectedUG)
     }, [selectedUG]);
@@ -166,7 +167,12 @@ function Tasks() {
         let param = {query: `user/${user.userid}/${selectedUG}`}
         const responseData = await Query.deleteData(param);
         if (responseData.length) {
-            logout()
+            localStorage.removeItem('selectedUG');
+            dispatch({
+                type: 'SET_SELECTED_UG',
+                value: 0
+            })
+            logout();
         }
 
     }

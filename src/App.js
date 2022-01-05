@@ -18,7 +18,7 @@ function App() {
             login();
         }
         if(localStorage.getItem('selectedUG')){
-            dispatch({type: 'SET_SELECTED_UG', value: localStorage.getItem('selectedUG')})
+            dispatch({type: 'SET_SELECTED_UG', value: +localStorage.getItem('selectedUG')})
         }
         isLoading(false)
     }, [])
