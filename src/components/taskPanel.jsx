@@ -134,7 +134,6 @@ const TaskPanel = ({
                         onClick={(event) => {
                             event.stopPropagation();
                             changeTaskStatus(...newStatusProps());
-                            setSelectedTask({...selectedTask, ID: 0, STATUS: ''});
                         }}
                     />
                 ) : (

@@ -12,6 +12,7 @@ import GroupCreationForm from "../components/groupCreationForm";
 import {useDispatch, useSelector} from "react-redux";
 import ModalPropForms from "../components/modalPropForms";
 import Query from "../backend/query";
+import {getDateFormat} from "../utils/utils";
 
 
 function Tasks() {
@@ -27,6 +28,8 @@ function Tasks() {
 
     const [userGroups, setUserGroups] = useState([]);
     const [taskList, setTaskList] = useState([]);
+    const [lastUpd, setLastUpd] = useState(getDateFormat(new Date()))
+    const [lastTaskListChanges, setLastTaskListChanges] = useState([])
     const [taskLinks, setTaskLinks] = useState([{
         ID: 0
         , USERGROUP_ID: 0
@@ -86,6 +89,45 @@ function Tasks() {
         setTaskLinks(responseData);
     });
 
+
+    const [fetchLastUpd, isLastUpdLoading, lastUpdError] = useFetching(async () => {
+        let prevDate = getDateFormat(new Date());
+        const param = {
+            query: 'tasks/changes',
+            lastchange: lastUpd,
+            USERGROUP_ID: selectedUG
+        }
+        const responseData = await Query.getData(param);
+        if (responseData.length) {
+            setLastUpd(prevDate)
+            setLastTaskListChanges(responseData);
+        }
+    });
+
+    const [loadCounter, setLoadCounter] = useState(0)
+
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+            if (!isLastUpdLoading) {
+                setLoadCounter((prevCount) => prevCount + 1)
+            }
+        }, 10000);
+        return () => {
+            clearInterval(intervalID)
+        }
+    }, [])
+
+    useEffect(fetchLastUpd, [loadCounter])
+
+    useEffect(() => {
+        if (lastTaskListChanges.length) {
+            lastTaskListChanges.forEach((task) => {
+                console.log(task)
+                updateTaskList_Task(task)
+            })
+        }
+    }, [lastTaskListChanges])
+
     useEffect(async () => await fetchUGData(), [user.userid]);
     useEffect(async () => {
         if (selectedUG) {
@@ -102,13 +144,25 @@ function Tasks() {
         localStorage.setItem('selectedUG', selectedUG)
     }, [selectedUG]);
 
-    const changeTaskStatus = async (taskID, fieldName, newValue) => {
+
+    const changeTaskStatus = async (taskID, fieldName, newValue, status) => {
+        const param = {query: 'tasks/task_status/', status, USERGROUP_ID: selectedUG, ID: taskID, userid: user.userid}
+        const responseData = await Query.updateData(param);
+        let id = responseData[0].USERGROUP_ID;
+        if (id) {
+            updateTaskList_Task(responseData[0])
+            setSelectedTask({...selectedTask, ID: 0, STATUS: ''});
+        }
+    }
+
+    const updateTaskList_Task = (data) => {
         let tmpArr = Object.assign(taskList);
         if (tmpArr.length > 0) {
-            let updRowIndex = tmpArr.findIndex((task) => task.ID === taskID)
-            tmpArr[updRowIndex][fieldName] = newValue;
-            tmpArr[updRowIndex].LAST_CHANGE = newValue;
-            tmpArr[updRowIndex].USERID = user.userid;
+            let updRowIndex = tmpArr.findIndex((task) => task.ID === data.ID)
+            tmpArr[updRowIndex].STARTED = data.STARTED;
+            tmpArr[updRowIndex].FINISHED = data.FINISHED;
+            tmpArr[updRowIndex].LAST_CHANGE = data.LAST_CHANGE;
+            tmpArr[updRowIndex].USERID = data.USERID;
         }
         setTaskList(tmpArr);
     }
