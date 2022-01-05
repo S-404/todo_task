@@ -1,36 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import SmallButton from "./UI/button/smallButton";
 import MyCheckbox from "./UI/checkbox/myCheckbox";
 
-const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
-    const [newPartList, setNewPartList] = useState(
-        [{USERID: '', ISADMIN: false}]
-    )
-    useEffect( () => {
-        setNewPartList([...participants])
-    }, [participants])
+const GroupParticipants = ({participants,setModalInvite,updateParticipant,removeParticipant}) => {
 
-    const appointAdmin = (userid)=>{
-        let usersObj = Object.assign(newPartList);
-        if (usersObj.length > 0) {
-            let updRowIndex = usersObj.findIndex((user) => user.USERID === userid)
-            usersObj[updRowIndex].ISADMIN = !usersObj[updRowIndex].ISADMIN;
+    const appointAdmin = (userid) => {
+        let userObj = Object.assign(participants.filter((user) => user.USERID === userid));
+        if (userObj.length) {
+            updateParticipant({...userObj[0], ISADMIN: !userObj[0].ISADMIN})
         }
-        setParticipants([...usersObj]);
     }
 
-    const excludeUser = (userid)=>{
+    const excludeUser = (userid) => {
         if (!window.confirm(`User ${userid.toUpperCase()} will be excluded`)) return;
-        setParticipants(participants.filter((user) => user.USERID !== userid))
+        let userObj = Object.assign(participants.filter((user) => user.USERID === userid));
+        if (userObj.length) {
+            removeParticipant(userObj[0]);
+        }
     }
-
-
 
     return (
         <div>
             <span>Group Participants:</span>
             <div className='participants-list'>
-                {newPartList.map((participant, index) => (
+                {participants.map((participant, index) => (
                     <div
                         className='participants-list__participant-panel'
                         key={`participant${participant.USERID + index}`}>
@@ -41,7 +34,7 @@ const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
                             <MyCheckbox
                                 text='Admin'
                                 isChecked={!!participant.ISADMIN}
-                                onChange={()=>appointAdmin(participant.USERID)}
+                                onChange={() => appointAdmin(participant.USERID)}
                             />
                             <SmallButton
                                 text='exclude'
@@ -53,7 +46,7 @@ const GroupParticipants = ({setParticipants, participants,setModalInvite}) => {
                 }
                 <SmallButton
                     text='invite user'
-                    onClick={()=> setModalInvite(true)}
+                    onClick={() => setModalInvite(true)}
                 />
             </div>
         </div>

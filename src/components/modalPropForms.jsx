@@ -19,9 +19,8 @@ const ModalPropForms = ({
                             modalForms,
                             setVisible,
                             uniqTaskGroups,
-                            leaveGroup
                         }) => {
-    const [participants, setParticipants] = useState([]);
+
     const [selectedLinkID, setSelectedLinkID] = useState(0);
 
     const createTask = async (taskObj) => {
@@ -98,18 +97,7 @@ const ModalPropForms = ({
 
     };
 
-    const [fetchParticipants, isParticipantsLoading, participantsError] = useFetching(async () => {
-        const responseData = await Query.getData({
-            query: `/user/useraccess/userlist/${selectedUG}`,
-        });
-        setParticipants(responseData);
-    });
 
-    useEffect(async () => {
-        if (selectedUG) {
-            fetchParticipants();
-        }
-    }, [selectedUG])
 
     return (<div>
         <MyModal visible={modalForms.newTask} name='newTask' setVisible={setVisible}>
@@ -142,12 +130,7 @@ const ModalPropForms = ({
             />
         </MyModal>
         <MyModal visible={modalForms.groupProp} name='groupProp' setVisible={setVisible}>
-            <GroupPropertiesForm
-                setParticipants={setParticipants}
-                participants={participants}
-                isParticipantsLoading={isParticipantsLoading}
-                leaveGroup={leaveGroup}
-            />
+            <GroupPropertiesForm/>
         </MyModal>
     </div>);
 };

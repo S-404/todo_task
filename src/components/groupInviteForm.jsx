@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import MyInput from "./UI/input/myInput";
 import MyButton from "./UI/button/myButton";
 
-const GroupInviteForm = ({setParticipants,participants}) => {
-    const [invUserID, setInvUserID] = useState('')
+const GroupInviteForm = ({addParticipant}) => {
+
+    const [invUserID, setInvUserID] = useState('');
+
     const invite = () => {
         if (invUserID) {
             alert(`user ${invUserID.toUpperCase()} has been invited`);
-            setParticipants([...participants,{USERID: invUserID, ISADMIN:false}])
-            setInvUserID('')
+            let newParticipantObj = {USERID: invUserID, ISADMIN: false}
+            addParticipant(newParticipantObj);
+            setInvUserID('');
         }
     }
     return (

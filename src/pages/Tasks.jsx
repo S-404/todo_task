@@ -21,11 +21,6 @@ function Tasks() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user)
     const selectedUG = (useSelector(state => state.user)).selectedUG
-    const logout = () => {
-        dispatch({type: 'SET_AUTH', value: false});
-        localStorage.removeItem('auth')
-        localStorage.removeItem('userid')
-    }
 
     const [userGroups, setUserGroups] = useState([]);
     const [taskList, setTaskList] = useState([]);
@@ -161,21 +156,7 @@ function Tasks() {
     }
 
 
-    const leaveGroup = async () => {
-        if (!window.confirm('You will leave the group. ' +
-            'If you are the last member then the group will be deleted')) return;
-        let param = {query: `user/${user.userid}/${selectedUG}`}
-        const responseData = await Query.deleteData(param);
-        if (responseData.length) {
-            localStorage.removeItem('selectedUG');
-            dispatch({
-                type: 'SET_SELECTED_UG',
-                value: 0
-            })
-            logout();
-        }
 
-    }
 
     const setVisible = (key, value) => {
         setModalForms({...modalForms, [key]: value})
@@ -194,7 +175,6 @@ function Tasks() {
                     modalForms={modalForms}
                     setModalForms={setModalForms}
                     uniqTaskGroups={uniqTaskGroups}
-                    leaveGroup={leaveGroup}
                     setVisible={setVisible}
                 />
                 :
